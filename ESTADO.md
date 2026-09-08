@@ -147,6 +147,12 @@ El usuario señaló que faltaban piezas del layout real de Drevia en escritorio:
   → cita destacada → antes/después → cómo se usa → narrativa de cierre →
   comentarios finales.
 
+## Cuarta corrección (barra de anuncios por encima del logo)
+La barra de anuncios (marquee + franja fija de cuenta atrás/envío) se movió
+de la plantilla de producto al `sections/header-group.json` del tema, antes
+de "header". Así queda por encima del logo VitaReva en TODAS las páginas
+(no solo la de producto), tal como pidió el usuario señalando la captura.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK

@@ -2,6 +2,21 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "mt-announce": {
+      "type": "mt-announcement-bar",
+      "settings": {
+        "show_strip": true,
+        "strip_countdown_label": "Oferta termina en:",
+        "strip_countdown_hours": 24,
+        "strip_shipping_text": "Envío gratis 24-48h"
+      },
+      "blocks": {
+        "b1": { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis 24-48h" } },
+        "b2": { "type": "item", "settings": { "icon": "🔥", "text": "Oferta de lanzamiento" } },
+        "b3": { "type": "item", "settings": { "icon": "✅", "text": "Garantía 30 días" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
     "header": {
       "type": "header",
       "settings": {
@@ -22,6 +37,7 @@
     }
   },
   "order": [
+    "mt-announce",
     "header"
   ]
 }
