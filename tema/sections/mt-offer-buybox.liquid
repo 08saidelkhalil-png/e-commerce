@@ -1,0 +1,162 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="mt-section {{ section.settings.background }}">
+  <div class="mt-wrap mt-pad--sm">
+    <div class="mt-buybox" data-mt-buybox data-product-url="{{ product.url }}">
+      <div class="mt-price-row">
+        <span class="mt-price" data-mt-price>{{ current_variant.price | money }}</span>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="mt-price--compare" data-mt-compare>{{ current_variant.compare_at_price | money }}</span>
+          <span class="mt-price-badge" data-mt-discount>
+            -{{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%
+          </span>
+        {% endif %}
+      </div>
+      <p class="mt-price-sub">{{ section.settings.price_note }}</p>
+
+      <form data-mt-form>
+        {% for option in product.options_with_values %}
+          <div class="mt-swatches" data-mt-option="{{ option.position }}">
+            {% for value in option.values %}
+              <label class="mt-swatch">
+                <input type="radio" name="mt-option-{{ option.position }}" value="{{ value | escape }}" {% if value == option.selected_value %}checked{% endif %}>
+                {{ value }}
+              </label>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <div class="mt-qty">
+          <button type="button" data-mt-qty-minus aria-label="Restar">−</button>
+          <input type="number" min="1" value="1" data-mt-qty-input aria-label="Cantidad">
+          <button type="button" data-mt-qty-plus aria-label="Sumar">+</button>
+        </div>
+
+        <button type="submit" class="mt-btn" data-mt-add-btn>
+          <span data-mt-add-label>{{ section.settings.button_text }}</span>
+        </button>
+      </form>
+
+      {% if section.settings.show_urgency %}
+        <div class="mt-buybox__urgency">⏳ {{ section.settings.urgency_text }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root = document.currentScript.closest('.mt-section').querySelector('[data-mt-buybox]');
+  if(!root) return;
+  var variants = {{ product.variants | json }};
+  var form = root.querySelector('[data-mt-form]');
+  var qtyInput = root.querySelector('[data-mt-qty-input]');
+  var priceEl = root.querySelector('[data-mt-price]');
+  var compareEl = root.querySelector('[data-mt-compare]');
+  var discountEl = root.querySelector('[data-mt-discount]');
+  var addBtn = root.querySelector('[data-mt-add-btn]');
+  var addLabel = root.querySelector('[data-mt-add-label]');
+  var addLabelDefault = addLabel ? addLabel.textContent : '';
+
+  function money(cents){
+    return (cents/100).toLocaleString('es-ES', { style:'currency', currency:'{{ cart.currency.iso_code | default: shop.currency }}' });
+  }
+
+  function selectedOptions(){
+    var groups = root.querySelectorAll('[data-mt-option]');
+    var out = [];
+    groups.forEach(function(g){
+      var checked = g.querySelector('input:checked');
+      out.push(checked ? checked.value : null);
+    });
+    return out;
+  }
+
+  function findVariant(){
+    var sel = selectedOptions();
+    return variants.find(function(v){
+      var opts = [v.option1, v.option2, v.option3].filter(function(o){ return o !== null; });
+      return sel.every(function(s, i){ return s === null || s === opts[i]; });
+    });
+  }
+
+  function updateUI(){
+    var v = findVariant();
+    if(!v){
+      addBtn.disabled = true;
+      if(addLabel) addLabel.textContent = 'No disponible';
+      return;
+    }
+    addBtn.disabled = !v.available;
+    if(addLabel) addLabel.textContent = v.available ? addLabelDefault : 'Agotado';
+    if(priceEl) priceEl.textContent = money(v.price);
+    if(v.compare_at_price && v.compare_at_price > v.price){
+      if(compareEl){ compareEl.style.display=''; compareEl.textContent = money(v.compare_at_price); }
+      if(discountEl){ discountEl.style.display=''; discountEl.textContent = '-' + Math.round((v.compare_at_price - v.price) / v.compare_at_price * 100) + '%'; }
+    } else {
+      if(compareEl) compareEl.style.display='none';
+      if(discountEl) discountEl.style.display='none';
+    }
+    document.dispatchEvent(new CustomEvent('mt:variant-change', { detail: { variant: v } }));
+  }
+
+  root.querySelectorAll('[data-mt-option] input').forEach(function(input){
+    input.addEventListener('change', updateUI);
+  });
+
+  root.querySelector('[data-mt-qty-minus]').addEventListener('click', function(){
+    qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
+  });
+  root.querySelector('[data-mt-qty-plus]').addEventListener('click', function(){
+    qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1;
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var v = findVariant();
+    if(!v || !v.available) return;
+    addBtn.disabled = true;
+    if(addLabel) addLabel.textContent = 'Añadiendo…';
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: v.id, quantity: parseInt(qtyInput.value, 10) || 1 })
+    })
+      .then(function(r){ if(!r.ok) throw new Error('add failed'); return r.json(); })
+      .then(function(){
+        window.location.href = window.Shopify.routes.root + 'cart';
+      })
+      .catch(function(){
+        if(addLabel) addLabel.textContent = 'Error, prueba de nuevo';
+        addBtn.disabled = false;
+      });
+  });
+
+  updateUI();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT Oferta y compra",
+  "tag": "section",
+  "class": "mt-section-buybox",
+  "settings": [
+    { "type": "text", "id": "price_note", "label": "Nota bajo el precio", "default": "Impuestos incluidos. Envío calculado en el pago." },
+    { "type": "text", "id": "button_text", "label": "Texto del botón", "default": "Añadir al carrito" },
+    { "type": "checkbox", "id": "show_urgency", "label": "Mostrar aviso de urgencia", "default": true },
+    { "type": "text", "id": "urgency_text", "label": "Texto de urgencia", "default": "Oferta por tiempo limitado — quedan pocas unidades" },
+    {
+      "type": "select", "id": "background", "label": "Fondo",
+      "options": [
+        { "value": "", "label": "Crema" },
+        { "value": "mt-section--soft", "label": "Crema suave" }
+      ],
+      "default": ""
+    }
+  ],
+  "presets": [{ "name": "MT Oferta y compra" }]
+}
+{% endschema %}

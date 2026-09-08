@@ -1,0 +1,47 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section {{ section.settings.background }}">
+  <div class="mt-wrap mt-pad--sm">
+    <div class="mt-mini-reviews">
+      {% for block in section.blocks %}
+        <div class="mt-mini-review" {{ block.shopify_attributes }}>
+          <div class="mt-mini-review__avatar">{{ block.settings.name | slice: 0, 1 }}</div>
+          <div>
+            <div class="mt-mini-review__name">{{ block.settings.name }}</div>
+            <div class="mt-mini-review__stars">★★★★★</div>
+            <div class="mt-mini-review__text">"{{ block.settings.text }}"</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Reseñas cortas",
+  "tag": "section",
+  "class": "mt-section-mini-reviews",
+  "settings": [
+    {
+      "type": "select", "id": "background", "label": "Fondo",
+      "options": [
+        { "value": "", "label": "Crema" },
+        { "value": "mt-section--soft", "label": "Crema suave" }
+      ],
+      "default": ""
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Reseña corta",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "María G." },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Me cambió la vida" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Reseñas cortas" }]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="mt-sticky" data-mt-sticky>
+  <div class="mt-sticky__inner">
+    {% assign img = product.featured_image %}
+    {% if img %}
+      <img class="mt-sticky__img" src="{{ img | image_url: width: 100 }}" alt="" width="50" height="50">
+    {% endif %}
+    <div class="mt-sticky__info">
+      <div class="mt-sticky__name">{{ product.title }}</div>
+      <div class="mt-sticky__price" data-mt-sticky-price>{{ current_variant.price | money }}</div>
+    </div>
+    <button type="button" class="mt-btn" data-mt-sticky-btn>{{ section.settings.button_text }}</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var bar = document.currentScript.previousElementSibling ? null : null;
+  var sticky = document.querySelector('[data-mt-sticky]');
+  if(!sticky) return;
+  var priceEl = sticky.querySelector('[data-mt-sticky-price]');
+  var btn = sticky.querySelector('[data-mt-sticky-btn]');
+  var activeVariant = {{ current_variant | json }};
+
+  document.addEventListener('mt:variant-change', function(e){
+    activeVariant = e.detail.variant;
+    if(priceEl && activeVariant){
+      priceEl.textContent = (activeVariant.price/100).toLocaleString('es-ES', { style:'currency', currency:'{{ cart.currency.iso_code | default: shop.currency }}' });
+    }
+  });
+
+  btn.addEventListener('click', function(){
+    if(!activeVariant) return;
+    btn.disabled = true;
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: activeVariant.id, quantity: 1 })
+    })
+      .then(function(r){ if(!r.ok) throw new Error('add failed'); return r.json(); })
+      .then(function(){ window.location.href = window.Shopify.routes.root + 'cart'; })
+      .catch(function(){ btn.disabled = false; });
+  });
+
+  var buybox = document.querySelector('[data-mt-buybox]');
+  if(buybox && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        sticky.classList.toggle('is-visible', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+      });
+    }, { threshold: 0 });
+    io.observe(buybox);
+  } else {
+    sticky.classList.add('is-visible');
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT Carrito fijo",
+  "tag": "section",
+  "class": "mt-section-sticky",
+  "settings": [
+    { "type": "text", "id": "button_text", "label": "Texto del botón", "default": "Añadir al carrito" }
+  ],
+  "presets": [{ "name": "MT Carrito fijo" }]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section {{ section.settings.background }}">
+  <div class="mt-wrap mt-pad">
+    {% if section.settings.heading != blank %}
+      <h2 class="mt-h2 mt-center">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="mt-reviews">
+      {% for block in section.blocks %}
+        <div class="mt-review" {{ block.shopify_attributes }}>
+          <div class="mt-review__head">
+            <span class="mt-review__name">{{ block.settings.name }}</span>
+            {% if block.settings.verified %}
+              <span class="mt-review__verified">✓ Compra verificada</span>
+            {% endif %}
+          </div>
+          <div class="mt-review__stars">★★★★★</div>
+          <p class="mt-review__text">{{ block.settings.text }}</p>
+          {% if block.settings.image %}
+            <div class="mt-review__photos">
+              <img src="{{ block.settings.image | image_url: width: 130 }}" alt="Foto de {{ block.settings.name }}" loading="lazy" width="130" height="130">
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Reseñas largas",
+  "tag": "section",
+  "class": "mt-section-reviews-long",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Lo que dicen quienes ya lo tienen" },
+    {
+      "type": "select", "id": "background", "label": "Fondo",
+      "options": [
+        { "value": "", "label": "Crema" },
+        { "value": "mt-section--soft", "label": "Crema suave" }
+      ],
+      "default": "mt-section--soft"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Reseña",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Laura M." },
+        { "type": "checkbox", "id": "verified", "label": "Compra verificada", "default": true },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Al principio dudaba pero..." },
+        { "type": "image_picker", "id": "image", "label": "Foto (opcional)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Reseñas largas" }]
+}
+{% endschema %}

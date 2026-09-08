@@ -1,0 +1,39 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section {{ section.settings.background }}">
+  <div class="mt-wrap">
+    <div class="mt-trust">
+      <span><span class="mt-trust__stars">★★★★★</span> {{ section.settings.rating }}/5 ({{ section.settings.reviews_count }} valoraciones)</span>
+      <span class="mt-trust__sep">|</span>
+      <span>🚚 {{ section.settings.shipping_text }}</span>
+      <span class="mt-trust__sep">|</span>
+      <span>🛡️ {{ section.settings.warranty_text }}</span>
+      <span class="mt-trust__sep">|</span>
+      <span>🔥 {{ section.settings.sold_text }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Barra de confianza",
+  "tag": "section",
+  "class": "mt-section-trust",
+  "settings": [
+    { "type": "text", "id": "rating", "label": "Valoración media", "default": "4.9" },
+    { "type": "text", "id": "reviews_count", "label": "Número de valoraciones", "default": "2.340" },
+    { "type": "text", "id": "shipping_text", "label": "Texto de envío", "default": "Envío 24-48h" },
+    { "type": "text", "id": "warranty_text", "label": "Texto de garantía", "default": "Garantía 30 días" },
+    { "type": "text", "id": "sold_text", "label": "Texto de ventas", "default": "+10.000 vendidos" },
+    {
+      "type": "select", "id": "background", "label": "Fondo",
+      "options": [
+        { "value": "", "label": "Crema" },
+        { "value": "mt-section--soft", "label": "Crema suave" }
+      ],
+      "default": ""
+    }
+  ],
+  "presets": [{ "name": "MT Barra de confianza" }]
+}
+{% endschema %}

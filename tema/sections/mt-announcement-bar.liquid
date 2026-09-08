@@ -1,0 +1,31 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-announce">
+  <div class="mt-announce__track">
+    {% for i in (1..2) %}
+      {% for block in section.blocks %}
+        <span class="mt-announce__item">{{ block.settings.icon }} {{ block.settings.text }}</span>
+      {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Barra de anuncios",
+  "tag": "section",
+  "class": "mt-section-announce",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Mensaje",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icono/emoji", "default": "🚚" },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Envío gratis en 24h" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Barra de anuncios" }]
+}
+{% endschema %}

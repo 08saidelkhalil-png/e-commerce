@@ -1,0 +1,103 @@
+{
+  "sections": {
+    "mt-announce": {
+      "type": "mt-announcement-bar",
+      "blocks": {
+        "b1": { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis 24-48h" } },
+        "b2": { "type": "item", "settings": { "icon": "🔥", "text": "Oferta -50% termina hoy" } },
+        "b3": { "type": "item", "settings": { "icon": "✅", "text": "Garantía 30 días" } },
+        "b4": { "type": "item", "settings": { "icon": "⭐", "text": "+10.000 clientes contentos" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "mt-hero": {
+      "type": "mt-hero-gallery",
+      "blocks": {
+        "b1": { "type": "infografia", "settings": { "label": "Cómo funciona" } },
+        "b2": { "type": "infografia", "settings": { "label": "Antes y después" } },
+        "b3": { "type": "infografia", "settings": { "label": "Medidas y uso" } }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": { "badge": "Más vendido" }
+    },
+    "mt-title": {
+      "type": "mt-feature-title",
+      "settings": {
+        "eyebrow": "Qué es y qué hace",
+        "heading": "El cepillo 2 en 1 que deja cada ranura como nueva",
+        "subheading": "Cerdas en cuña + almohadilla de microfibra: llega al fondo del carril sin dañar tus uñas ni rayar el aluminio o el PVC."
+      }
+    },
+    "mt-benefits": {
+      "type": "mt-emoji-benefits",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "emoji": "🧽", "text": "Limpia sin rayar aluminio ni PVC" } },
+        "b2": { "type": "benefit", "settings": { "emoji": "✋", "text": "Sin dañarte las uñas" } },
+        "b3": { "type": "benefit", "settings": { "emoji": "♻️", "text": "Almohadilla lavable y reutilizable" } },
+        "b4": { "type": "benefit", "settings": { "emoji": "🏠", "text": "Sirve para ventanas, duchas y armarios" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "mt-trust": { "type": "mt-trust-bar" },
+    "mt-buybox": { "type": "mt-offer-buybox" },
+    "mt-mini-reviews": {
+      "type": "mt-mini-reviews",
+      "blocks": {
+        "b1": { "type": "review", "settings": { "name": "María G.", "text": "Me cambió la vida" } },
+        "b2": { "type": "review", "settings": { "name": "Juan P.", "text": "Llegó en 24h" } }
+      },
+      "block_order": ["b1", "b2"]
+    },
+    "mt-faq": {
+      "type": "mt-faq-accordion",
+      "blocks": {
+        "b1": { "type": "faq", "settings": { "question": "¿Cuánto tarda el envío?", "answer": "Entre 24 y 48 horas laborables en península." } },
+        "b2": { "type": "faq", "settings": { "question": "¿Cómo se usa?", "answer": "Encaja el extremo de cerdas en la ranura y desliza; usa la almohadilla de microfibra para el cristal." } },
+        "b3": { "type": "faq", "settings": { "question": "¿Y si no me funciona?", "answer": "Tienes 30 días de garantía y devolución gratuita, sin preguntas." } },
+        "b4": { "type": "faq", "settings": { "question": "Materiales y medidas", "answer": "Cerdas de nailon resistente y almohadilla de microfibra reutilizable. Mango ergonómico de unos 14 cm." } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "mt-transform": {
+      "type": "mt-transformation",
+      "settings": {
+        "eyebrow": "El problema que ya conoces",
+        "quote": "Imagina limpiar la ranura de tu ventana en 10 segundos, sin cuchillos ni trapos que no llegan al fondo.",
+        "body": "<p>Sabes de qué hablamos: esa línea negra de suciedad que se acumula en el carril y que ningún trapo saca del todo. Con el cepillo 2 en 1 encajas la cuña en la ranura, deslizas, y sale toda la mugre sin arriesgarte a rayar el aluminio ni hacerte daño en las uñas.</p>"
+      }
+    },
+    "mt-guarantee": {
+      "type": "mt-guarantee-social",
+      "blocks": {
+        "b1": { "type": "guarantee", "settings": { "icon": "🛡️", "label": "Garantía 30 días" } },
+        "b2": { "type": "guarantee", "settings": { "icon": "↩️", "label": "Devolución gratis" } },
+        "b3": { "type": "guarantee", "settings": { "icon": "🔒", "label": "Pago 100% seguro" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "mt-reviews-long": {
+      "type": "mt-reviews-long",
+      "blocks": {
+        "b1": { "type": "review", "settings": { "name": "Laura M.", "verified": true, "text": "Al principio dudaba si merecía la pena, pero llevaba meses con la ranura de la ventana negra y en un minuto quedó como nueva. Lo recomiendo sin dudarlo." } },
+        "b2": { "type": "review", "settings": { "name": "Carlos R.", "verified": true, "text": "Lo compré para los rieles de la ducha y también me sirve para el teclado. Sorprendido de lo bien que encaja en cada rincón." } },
+        "b3": { "type": "review", "settings": { "name": "Ana B.", "verified": true, "text": "Envío rápido y el cepillo cumple lo que promete. La almohadilla se puede lavar y sigue como nueva." } }
+      },
+      "block_order": ["b1", "b2", "b3"]
+    },
+    "mt-sticky": { "type": "mt-sticky-atc" }
+  },
+  "order": [
+    "mt-announce",
+    "mt-hero",
+    "mt-title",
+    "mt-benefits",
+    "mt-trust",
+    "mt-buybox",
+    "mt-mini-reviews",
+    "mt-faq",
+    "mt-transform",
+    "mt-guarantee",
+    "mt-reviews-long",
+    "mt-sticky"
+  ]
+}

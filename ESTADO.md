@@ -90,9 +90,20 @@ reales; se puede compensar generando imágenes nuevas desde texto.
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK
-- Fase 2 (proyecto/tema base): tema creado en Shopify (ver arriba), procesando
-- Fase 3 (brief): recibido del usuario directamente (no hizo falta
-  proponérselo) — ver "Brief de diseño" arriba
+- Fase 2 (proyecto/tema base): tema creado y procesado en Shopify
+- Fase 3 (brief): recibido del usuario directamente — ver "Brief de diseño"
 - Fase 3b (fotos IA): pendiente de que el usuario adjunte las fotos
-- Fase 4-5 (construcción): en curso
-- Fase 6 (publicación): pendiente
+- Fase 4 (secciones mt-*): 12 secciones construidas y subidas al tema
+  (announcement-bar, hero-gallery, feature-title, emoji-benefits, trust-bar,
+  offer-buybox, mini-reviews, faq-accordion, transformation, guarantee-social,
+  reviews-long, sticky-atc)
+- Fase 5 (plantilla de producto): `templates/product.json` del tema
+  sobrescrito con las 12 secciones en el orden del brief (dentro del tema NO
+  publicado; el tema en vivo no se toca). Pendiente: header/footer/legales/
+  colores globales (carrito, búsqueda).
+- Enlace de previsualización (tema no publicado, no afecta a la tienda en
+  vivo):
+  https://3xhcyv-yu.myshopify.com/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1?preview_theme_id=207033532754
+- Fase 6 (publicación): pendiente de revisión del usuario y de su clic de
+  "Publicar" (esta sesión tiene bloqueada la mutación themePublish por
+  seguridad).
