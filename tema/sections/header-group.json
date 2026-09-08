@@ -2,20 +2,13 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "mt-announce": {
-      "type": "mt-announcement-bar",
+    "mt-top-strip": {
+      "type": "mt-top-strip",
       "settings": {
-        "show_strip": true,
-        "strip_countdown_label": "Oferta termina en:",
-        "strip_countdown_hours": 24,
-        "strip_shipping_text": "Envío gratis 24-48h"
-      },
-      "blocks": {
-        "b1": { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis 24-48h" } },
-        "b2": { "type": "item", "settings": { "icon": "🔥", "text": "Oferta de lanzamiento" } },
-        "b3": { "type": "item", "settings": { "icon": "✅", "text": "Garantía 30 días" } }
-      },
-      "block_order": ["b1", "b2", "b3"]
+        "countdown_label": "Oferta termina en:",
+        "countdown_hours": 24,
+        "shipping_text": "Envío gratis 24-48h"
+      }
     },
     "header": {
       "type": "header",
@@ -34,10 +27,20 @@
         "padding_top": 20,
         "padding_bottom": 20
       }
+    },
+    "mt-announce": {
+      "type": "mt-announcement-bar",
+      "blocks": {
+        "b1": { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis 24-48h" } },
+        "b2": { "type": "item", "settings": { "icon": "🔥", "text": "Oferta de lanzamiento" } },
+        "b3": { "type": "item", "settings": { "icon": "✅", "text": "Garantía 30 días" } }
+      },
+      "block_order": ["b1", "b2", "b3"]
     }
   },
   "order": [
-    "mt-announce",
-    "header"
+    "mt-top-strip",
+    "header",
+    "mt-announce"
   ]
 }

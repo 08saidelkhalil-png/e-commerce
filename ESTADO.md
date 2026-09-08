@@ -153,6 +153,12 @@ de la plantilla de producto al `sections/header-group.json` del tema, antes
 de "header". Así queda por encima del logo VitaReva en TODAS las páginas
 (no solo la de producto), tal como pidió el usuario señalando la captura.
 
+## Quinta corrección (solo la franja fija va arriba del logo, el marquee vuelve abajo)
+Separado en dos secciones: `mt-top-strip` (solo cuenta atrás + envío gratis,
+fija, sin animación) va ANTES del logo; `mt-announcement-bar` (la barra que
+se mueve) vuelve a ir DESPUÉS del logo, dentro del mismo header-group.
+Ambas comparten la cuenta atrás vía localStorage `mt_offer_countdown`.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK
