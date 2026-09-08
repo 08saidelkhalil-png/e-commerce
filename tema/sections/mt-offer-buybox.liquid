@@ -2,45 +2,72 @@
 
 {% assign current_variant = product.selected_or_first_available_variant %}
 
-<div class="mt-section {{ section.settings.background }}">
-  <div class="mt-wrap mt-pad--sm">
-    <div class="mt-buybox" data-mt-buybox data-product-url="{{ product.url }}">
-      <div class="mt-price-row">
-        <span class="mt-price" data-mt-price>{{ current_variant.price | money }}</span>
-        {% if current_variant.compare_at_price > current_variant.price %}
-          <span class="mt-price--compare" data-mt-compare>{{ current_variant.compare_at_price | money }}</span>
-          <span class="mt-price-badge" data-mt-discount>
-            -{{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%
-          </span>
-        {% endif %}
+<div class="mt-section">
+  <div class="mt-wrap mt-pad">
+    <div data-mt-buybox>
+      <div class="mt-divider">
+        <span class="mt-divider__text">{{ section.settings.promo_text }}</span>
       </div>
-      <p class="mt-price-sub">{{ section.settings.price_note }}</p>
 
       <form data-mt-form>
-        {% for option in product.options_with_values %}
-          <div class="mt-swatches" data-mt-option="{{ option.position }}">
-            {% for value in option.values %}
-              <label class="mt-swatch">
-                <input type="radio" name="mt-option-{{ option.position }}" value="{{ value | escape }}" {% if value == option.selected_value %}checked{% endif %}>
-                {{ value }}
-              </label>
-            {% endfor %}
-          </div>
-        {% endfor %}
+        <div class="mt-bundles" data-mt-bundles>
+          {% for variant in product.variants %}
+            <label class="mt-bundle{% if variant.id == current_variant.id %} is-selected{% endif %}" data-mt-bundle data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}" data-compare="{{ variant.compare_at_price }}" data-available="{{ variant.available }}">
+              <input type="radio" name="mt-variant" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %}>
+              {% if variant.title contains 'Pack' or variant.title contains 'pack' %}
+                <span class="mt-bundle__badge">{{ section.settings.badge_text }}</span>
+              {% endif %}
+              <span class="mt-bundle__radio"></span>
+              <span class="mt-bundle__label">{{ variant.title }}</span>
+              <span class="mt-bundle__prices">
+                <span class="mt-bundle__price">{{ variant.price | money }}</span>
+                {% if variant.compare_at_price > variant.price %}
+                  <span class="mt-bundle__compare">{{ variant.compare_at_price | money }}</span>
+                {% endif %}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
 
-        <div class="mt-qty">
-          <button type="button" data-mt-qty-minus aria-label="Restar">−</button>
-          <input type="number" min="1" value="1" data-mt-qty-input aria-label="Cantidad">
-          <button type="button" data-mt-qty-plus aria-label="Sumar">+</button>
+        <div class="mt-rewards">
+          {% for block in section.blocks %}
+            <div class="mt-reward" {{ block.shopify_attributes }}>
+              {% case block.settings.icon %}
+                {% when 'shipping' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="14" height="11" rx="1.5"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+                {% when 'warranty' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+                {% else %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+              {% endcase %}
+              <div class="mt-reward__label">{{ block.settings.label }}</div>
+            </div>
+          {% endfor %}
         </div>
 
         <button type="submit" class="mt-btn" data-mt-add-btn>
           <span data-mt-add-label>{{ section.settings.button_text }}</span>
+          <span class="mt-btn__arrow">→</span>
         </button>
       </form>
 
-      {% if section.settings.show_urgency %}
-        <div class="mt-buybox__urgency">⏳ {{ section.settings.urgency_text }}</div>
+      <div class="mt-returns">
+        <span>⇄</span>
+        <span>{{ section.settings.returns_text }}</span>
+      </div>
+
+      <div class="mt-payments">
+        <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span><span>Apple Pay</span>
+      </div>
+
+      {% if section.settings.show_scarcity %}
+        <div class="mt-scarcity">
+          <div class="mt-scarcity__bar"><div class="mt-scarcity__fill" style="width:{{ section.settings.scarcity_percent }}%"></div></div>
+          <div class="mt-scarcity__row">
+            <span>⚠️ {{ section.settings.scarcity_label }}</span>
+            <span>{{ section.settings.scarcity_percent }}% agotado</span>
+          </div>
+        </div>
       {% endif %}
     </div>
   </div>
@@ -48,86 +75,46 @@
 
 <script>
 (function(){
-  var root = document.currentScript.closest('.mt-section').querySelector('[data-mt-buybox]');
+  var root = document.querySelector('[data-mt-buybox]');
   if(!root) return;
-  var variants = {{ product.variants | json }};
   var form = root.querySelector('[data-mt-form]');
-  var qtyInput = root.querySelector('[data-mt-qty-input]');
-  var priceEl = root.querySelector('[data-mt-price]');
-  var compareEl = root.querySelector('[data-mt-compare]');
-  var discountEl = root.querySelector('[data-mt-discount]');
+  var bundles = root.querySelectorAll('[data-mt-bundle]');
   var addBtn = root.querySelector('[data-mt-add-btn]');
   var addLabel = root.querySelector('[data-mt-add-label]');
-  var addLabelDefault = addLabel ? addLabel.textContent : '';
+  var addLabelDefault = addLabel ? addLabel.textContent.trim() : '';
 
-  function money(cents){
-    return (cents/100).toLocaleString('es-ES', { style:'currency', currency:'{{ cart.currency.iso_code | default: shop.currency }}' });
-  }
-
-  function selectedOptions(){
-    var groups = root.querySelectorAll('[data-mt-option]');
-    var out = [];
-    groups.forEach(function(g){
-      var checked = g.querySelector('input:checked');
-      out.push(checked ? checked.value : null);
-    });
-    return out;
-  }
-
-  function findVariant(){
-    var sel = selectedOptions();
-    return variants.find(function(v){
-      var opts = [v.option1, v.option2, v.option3].filter(function(o){ return o !== null; });
-      return sel.every(function(s, i){ return s === null || s === opts[i]; });
-    });
+  function selected(){
+    return root.querySelector('[data-mt-bundle] input:checked').closest('[data-mt-bundle]');
   }
 
   function updateUI(){
-    var v = findVariant();
-    if(!v){
-      addBtn.disabled = true;
-      if(addLabel) addLabel.textContent = 'No disponible';
-      return;
-    }
-    addBtn.disabled = !v.available;
-    if(addLabel) addLabel.textContent = v.available ? addLabelDefault : 'Agotado';
-    if(priceEl) priceEl.textContent = money(v.price);
-    if(v.compare_at_price && v.compare_at_price > v.price){
-      if(compareEl){ compareEl.style.display=''; compareEl.textContent = money(v.compare_at_price); }
-      if(discountEl){ discountEl.style.display=''; discountEl.textContent = '-' + Math.round((v.compare_at_price - v.price) / v.compare_at_price * 100) + '%'; }
-    } else {
-      if(compareEl) compareEl.style.display='none';
-      if(discountEl) discountEl.style.display='none';
-    }
-    document.dispatchEvent(new CustomEvent('mt:variant-change', { detail: { variant: v } }));
+    var el = selected();
+    bundles.forEach(function(b){ b.classList.toggle('is-selected', b === el); });
+    var available = el.dataset.available === 'true';
+    addBtn.disabled = !available;
+    if(addLabel) addLabel.textContent = available ? addLabelDefault : 'Agotado';
   }
 
-  root.querySelectorAll('[data-mt-option] input').forEach(function(input){
-    input.addEventListener('change', updateUI);
-  });
-
-  root.querySelector('[data-mt-qty-minus]').addEventListener('click', function(){
-    qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
-  });
-  root.querySelector('[data-mt-qty-plus]').addEventListener('click', function(){
-    qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1;
+  bundles.forEach(function(b){
+    b.addEventListener('click', function(){
+      b.querySelector('input').checked = true;
+      updateUI();
+    });
   });
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    var v = findVariant();
-    if(!v || !v.available) return;
+    var el = selected();
+    if(!el || el.dataset.available !== 'true') return;
     addBtn.disabled = true;
     if(addLabel) addLabel.textContent = 'Añadiendo…';
     fetch(window.Shopify.routes.root + 'cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ id: v.id, quantity: parseInt(qtyInput.value, 10) || 1 })
+      body: JSON.stringify({ id: el.dataset.variantId, quantity: 1 })
     })
       .then(function(r){ if(!r.ok) throw new Error('add failed'); return r.json(); })
-      .then(function(){
-        window.location.href = window.Shopify.routes.root + 'cart';
-      })
+      .then(function(){ window.location.href = window.Shopify.routes.root + 'cart'; })
       .catch(function(){
         if(addLabel) addLabel.textContent = 'Error, prueba de nuevo';
         addBtn.disabled = false;
@@ -140,23 +127,36 @@
 
 {% schema %}
 {
-  "name": "MT Oferta y compra",
+  "name": "MT Compra",
   "tag": "section",
   "class": "mt-section-buybox",
   "settings": [
-    { "type": "text", "id": "price_note", "label": "Nota bajo el precio", "default": "Impuestos incluidos. Envío calculado en el pago." },
+    { "type": "text", "id": "promo_text", "label": "Texto del divisor", "default": "Oferta especial" },
+    { "type": "text", "id": "badge_text", "label": "Distintivo en el pack", "default": "MÁS POPULAR" },
     { "type": "text", "id": "button_text", "label": "Texto del botón", "default": "Añadir al carrito" },
-    { "type": "checkbox", "id": "show_urgency", "label": "Mostrar aviso de urgencia", "default": true },
-    { "type": "text", "id": "urgency_text", "label": "Texto de urgencia", "default": "Oferta por tiempo limitado — quedan pocas unidades" },
+    { "type": "text", "id": "returns_text", "label": "Texto de devolución", "default": "Garantía de devolución de 30 días" },
+    { "type": "checkbox", "id": "show_scarcity", "label": "Mostrar barra de unidades", "default": true },
+    { "type": "text", "id": "scarcity_label", "label": "Etiqueta de urgencia", "default": "Oferta por tiempo limitado" },
+    { "type": "range", "id": "scarcity_percent", "label": "% agotado", "min": 10, "max": 95, "step": 5, "default": 70 }
+  ],
+  "blocks": [
     {
-      "type": "select", "id": "background", "label": "Fondo",
-      "options": [
-        { "value": "", "label": "Crema" },
-        { "value": "mt-section--soft", "label": "Crema suave" }
-      ],
-      "default": ""
+      "type": "reward",
+      "name": "Icono de confianza",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icono",
+          "options": [
+            { "value": "shipping", "label": "Envío" },
+            { "value": "warranty", "label": "Garantía" },
+            { "value": "secure", "label": "Seguridad" }
+          ],
+          "default": "shipping"
+        },
+        { "type": "text", "id": "label", "label": "Texto", "default": "Envío gratis" }
+      ]
     }
   ],
-  "presets": [{ "name": "MT Oferta y compra" }]
+  "presets": [{ "name": "MT Compra" }]
 }
 {% endschema %}

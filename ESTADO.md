@@ -87,20 +87,45 @@ reales; se puede compensar generando imágenes nuevas desde texto.
 - Usar las 7 fotos reales del producto, mejoradas con IA (pendiente de que el
   usuario las adjunte en el chat).
 
+## Corrección importante (tras feedback del usuario)
+La primera versión (fase 4/5 inicial) era solo "inspirada" en drevia/bleame y
+el usuario la rechazó por no parecerse a la referencia real. Se rehizo para
+clonar la anatomía real de getdrevia.com (capturas de pantalla del usuario)
+bloque a bloque, cambiando solo color/copys al tono del producto:
+- Header de Dawn: logo centrado (serif cursiva verde), menú en cajón,
+  buscador y carrito a la derecha (`sections/header-group.json`).
+- Paleta única verde oscuro (#1F4D34) + blanco + negro (sin la mezcla
+  crema/salvia/rojo de la v1) vía `config/settings_data.json` y
+  `assets/mt-theme.css`.
+- Galería: carrusel con flechas/puntos + tira de miniaturas (no grid fijo).
+- Rating + título + checklist de checks verdes (no emoji sueltos).
+- Compra: tarjetas de variante tipo "bundle" (radio, precio real por
+  variante, badge en el pack), trío de iconos de confianza, botón grande con
+  flecha, texto de devolución, iconos de métodos de pago, barra de urgencia
+  con % editable.
+- Reseñas cortas en carrusel deslizable (no lista apilada).
+- Acordeón con icono por pregunta.
+- Bloques narrativos reutilizables (`mt-transformation`, usado 3 veces:
+  story1/story2/story3) para imitar los titulares tipo "problema/causa raíz"
+  de Drevia.
+- Cita destacada en carrusel con icono de comillas.
+- Comparador antes/después arrastrable (`mt-before-after`) — usa fotos reales
+  del producto como marcador de posición hasta que haya fotos antes/después
+  reales; no se han inventado afirmaciones de limpieza.
+- No se han inventado precios tachados ni "% vendido" falsos: el precio
+  tachado solo aparece si existe compare_at_price real en la variante: la
+  barra de urgencia es un ajuste editable, no un dato inventado como hecho.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK
 - Fase 2 (proyecto/tema base): tema creado y procesado en Shopify
-- Fase 3 (brief): recibido del usuario directamente — ver "Brief de diseño"
+- Fase 3 (brief): recibido del usuario, corregido tras su feedback — ver
+  "Corrección importante" arriba
 - Fase 3b (fotos IA): pendiente de que el usuario adjunte las fotos
-- Fase 4 (secciones mt-*): 12 secciones construidas y subidas al tema
-  (announcement-bar, hero-gallery, feature-title, emoji-benefits, trust-bar,
-  offer-buybox, mini-reviews, faq-accordion, transformation, guarantee-social,
-  reviews-long, sticky-atc)
-- Fase 5 (plantilla de producto): `templates/product.json` del tema
-  sobrescrito con las 12 secciones en el orden del brief (dentro del tema NO
-  publicado; el tema en vivo no se toca). Pendiente: header/footer/legales/
-  colores globales (carrito, búsqueda).
+- Fase 4-5 (secciones + plantilla): reconstruidas para clonar la anatomía de
+  Drevia; `templates/product.json` del tema sobrescrito (tema NO publicado,
+  el tema en vivo no se toca). Pendiente: footer y páginas legales.
 - Enlace de previsualización (tema no publicado, no afecta a la tienda en
   vivo):
   https://3xhcyv-yu.myshopify.com/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1?preview_theme_id=207033532754

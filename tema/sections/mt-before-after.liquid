@@ -1,0 +1,62 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section">
+  <div class="mt-wrap mt-pad">
+    {% if section.settings.heading != blank %}
+      <h2 class="mt-story__heading mt-center">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="mt-ba" data-mt-ba>
+      <div class="mt-ba__after">
+        {% assign after_img = section.settings.after_image | default: product.images[1] %}
+        {% if after_img %}<img src="{{ after_img | image_url: width: 900 }}" alt="Después" loading="lazy">{% endif %}
+        <span class="mt-ba__label mt-ba__label--after">{{ section.settings.after_label }}</span>
+      </div>
+      <div class="mt-ba__before" data-mt-ba-before>
+        {% assign before_img = section.settings.before_image | default: product.images[2] %}
+        {% if before_img %}<img src="{{ before_img | image_url: width: 900 }}" alt="Antes" loading="lazy">{% endif %}
+        <span class="mt-ba__label mt-ba__label--before">{{ section.settings.before_label }}</span>
+      </div>
+      <div class="mt-ba__handle" data-mt-ba-handle>
+        <div class="mt-ba__grip">⇔</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-mt-ba]').forEach(function(ba){
+    var before = ba.querySelector('[data-mt-ba-before]');
+    var handle = ba.querySelector('[data-mt-ba-handle]');
+    var dragging = false;
+
+    function setPos(clientX){
+      var rect = ba.getBoundingClientRect();
+      var pct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
+      before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      handle.style.left = pct + '%';
+    }
+
+    handle.addEventListener('pointerdown', function(e){ dragging = true; handle.setPointerCapture(e.pointerId); });
+    handle.addEventListener('pointermove', function(e){ if(dragging) setPos(e.clientX); });
+    handle.addEventListener('pointerup', function(){ dragging = false; });
+    ba.addEventListener('click', function(e){ setPos(e.clientX); });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT Antes y después",
+  "tag": "section",
+  "class": "mt-section-before-after",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título" },
+    { "type": "image_picker", "id": "before_image", "label": "Imagen \"antes\" (si vacío, usa foto del producto)" },
+    { "type": "image_picker", "id": "after_image", "label": "Imagen \"después\" (si vacío, usa foto del producto)" },
+    { "type": "text", "id": "before_label", "label": "Etiqueta antes", "default": "Antes" },
+    { "type": "text", "id": "after_label", "label": "Etiqueta después", "default": "Después" }
+  ],
+  "presets": [{ "name": "MT Antes y después" }]
+}
+{% endschema %}

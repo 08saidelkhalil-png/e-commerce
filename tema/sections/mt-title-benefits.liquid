@@ -1,0 +1,42 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section">
+  <div class="mt-wrap mt-pad">
+    <div class="mt-rating">
+      <span class="mt-rating__stars">★★★★★</span>
+      <span>{{ section.settings.rating }}/5 · Más de {{ section.settings.reviews_count }} reseñas</span>
+    </div>
+    <h1 class="mt-title">{{ section.settings.heading | default: product.title }}</h1>
+    <div class="mt-checklist">
+      {% for block in section.blocks %}
+        <div class="mt-check" {{ block.shopify_attributes }}>
+          <span class="mt-check__icon">✓</span>
+          <span>{{ block.settings.text }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Título y checklist",
+  "tag": "section",
+  "class": "mt-section-title",
+  "settings": [
+    { "type": "text", "id": "rating", "label": "Valoración media", "default": "4.9" },
+    { "type": "text", "id": "reviews_count", "label": "Número de valoraciones", "default": "2.340" },
+    { "type": "text", "id": "heading", "label": "Título (vacío = título del producto)" }
+  ],
+  "blocks": [
+    {
+      "type": "check",
+      "name": "Beneficio",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "Beneficio" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Título y checklist" }]
+}
+{% endschema %}

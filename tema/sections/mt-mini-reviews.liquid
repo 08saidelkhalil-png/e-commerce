@@ -1,47 +1,69 @@
 {{ 'mt-theme.css' | asset_url | stylesheet_tag }}
 
-<div class="mt-section {{ section.settings.background }}">
-  <div class="mt-wrap mt-pad--sm">
-    <div class="mt-mini-reviews">
+<div class="mt-section">
+  <div class="mt-wrap mt-pad">
+    <div class="mt-review-carousel" data-mt-carousel>
       {% for block in section.blocks %}
-        <div class="mt-mini-review" {{ block.shopify_attributes }}>
-          <div class="mt-mini-review__avatar">{{ block.settings.name | slice: 0, 1 }}</div>
-          <div>
-            <div class="mt-mini-review__name">{{ block.settings.name }}</div>
-            <div class="mt-mini-review__stars">★★★★★</div>
-            <div class="mt-mini-review__text">"{{ block.settings.text }}"</div>
-          </div>
+        <div class="mt-review-slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          {% if block.settings.image %}
+            <img class="mt-review-slide__avatar" src="{{ block.settings.image | image_url: width: 120 }}" alt="{{ block.settings.name }}" width="56" height="56">
+          {% else %}
+            <div class="mt-review-slide__avatar" style="background:var(--mt-green-tint);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--mt-green);">{{ block.settings.name | slice: 0, 1 }}</div>
+          {% endif %}
+          <div class="mt-review-slide__stars">★★★★★</div>
+          <p class="mt-review-slide__text">"{{ block.settings.text }}"</p>
+          <div class="mt-review-slide__name">{{ block.settings.name }}</div>
         </div>
       {% endfor %}
+      <div class="mt-carousel-nav">
+        <button type="button" data-mt-carousel-prev aria-label="Anterior">‹</button>
+        <div class="mt-gallery__dots" data-mt-carousel-dots>
+          {% for block in section.blocks %}
+            <span class="mt-gallery__dot{% if forloop.first %} is-active{% endif %}"></span>
+          {% endfor %}
+        </div>
+        <button type="button" data-mt-carousel-next aria-label="Siguiente">›</button>
+      </div>
     </div>
   </div>
 </div>
 
+<script>
+(function(){
+  document.querySelectorAll('[data-mt-carousel]').forEach(function(c){
+    var slides = c.querySelectorAll('.mt-review-slide');
+    var dots = c.querySelectorAll('[data-mt-carousel-dots] .mt-gallery__dot');
+    var prev = c.querySelector('[data-mt-carousel-prev]');
+    var next = c.querySelector('[data-mt-carousel-next]');
+    var i = 0;
+    function show(n){
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function(s, idx){ s.classList.toggle('is-active', idx === i); });
+      dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === i); });
+    }
+    if(prev) prev.addEventListener('click', function(){ show(i - 1); });
+    if(next) next.addEventListener('click', function(){ show(i + 1); });
+  });
+})();
+</script>
+
 {% schema %}
 {
-  "name": "MT Reseñas cortas",
+  "name": "MT Reseñas carrusel",
   "tag": "section",
   "class": "mt-section-mini-reviews",
-  "settings": [
-    {
-      "type": "select", "id": "background", "label": "Fondo",
-      "options": [
-        { "value": "", "label": "Crema" },
-        { "value": "mt-section--soft", "label": "Crema suave" }
-      ],
-      "default": ""
-    }
-  ],
+  "settings": [],
   "blocks": [
     {
       "type": "review",
-      "name": "Reseña corta",
+      "name": "Reseña",
       "settings": [
         { "type": "text", "id": "name", "label": "Nombre", "default": "María G." },
-        { "type": "text", "id": "text", "label": "Texto", "default": "Me cambió la vida" }
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Me cambió la vida" },
+        { "type": "image_picker", "id": "image", "label": "Foto (opcional)" }
       ]
     }
   ],
-  "presets": [{ "name": "MT Reseñas cortas" }]
+  "presets": [{ "name": "MT Reseñas carrusel" }]
 }
 {% endschema %}

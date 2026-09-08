@@ -1,66 +1,93 @@
 {{ 'mt-theme.css' | asset_url | stylesheet_tag }}
 
-<div class="mt-section {{ section.settings.background }}">
+{% assign gallery_images = product.images %}
+
+<div class="mt-section">
   <div class="mt-wrap mt-pad">
-    <div class="mt-hero">
-      <div class="mt-hero__main">
-        {% if section.settings.badge != blank %}
-          <span class="mt-hero__badge">{{ section.settings.badge }}</span>
-        {% endif %}
-        {% assign main_image = section.settings.main_image | default: product.featured_image %}
-        {% if main_image %}
-          <img src="{{ main_image | image_url: width: 900 }}" alt="{{ main_image.alt | default: product.title }}" loading="eager" width="900" height="900">
-        {% else %}
-          {{ 'product-1' | placeholder_svg_tag }}
+    <div class="mt-gallery" data-mt-gallery>
+      <div class="mt-gallery__main">
+        <div class="mt-gallery__track" data-mt-track>
+          {% for image in gallery_images %}
+            <div class="mt-gallery__slide">
+              <img src="{{ image | image_url: width: 900 }}" alt="{{ image.alt | default: product.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" width="900" height="900">
+            </div>
+          {% else %}
+            <div class="mt-gallery__slide">{{ 'product-1' | placeholder_svg_tag }}</div>
+          {% endfor %}
+        </div>
+        {% if gallery_images.size > 1 %}
+          <button type="button" class="mt-gallery__arrow mt-gallery__arrow--prev" data-mt-prev aria-label="Anterior">‹</button>
+          <button type="button" class="mt-gallery__arrow mt-gallery__arrow--next" data-mt-next aria-label="Siguiente">›</button>
         {% endif %}
       </div>
 
-      <div class="mt-infografias">
-        {% for block in section.blocks %}
-          {% assign fallback = product.images[forloop.index] %}
-          <div class="mt-infografia" {{ block.shopify_attributes }}>
-            {% assign img = block.settings.image | default: fallback %}
-            {% if img %}
-              <img src="{{ img | image_url: width: 300 }}" alt="{{ block.settings.label }}" loading="lazy" width="300" height="300">
-            {% else %}
-              {{ 'product-1' | placeholder_svg_tag }}
-            {% endif %}
-            <div class="mt-infografia__label">{{ block.settings.label }}</div>
-          </div>
-        {% endfor %}
-      </div>
+      {% if gallery_images.size > 1 %}
+        <div class="mt-gallery__dots" data-mt-dots>
+          {% for image in gallery_images %}
+            <span class="mt-gallery__dot{% if forloop.first %} is-active{% endif %}" data-mt-dot></span>
+          {% endfor %}
+        </div>
+        <div class="mt-thumbs" data-mt-thumbs>
+          {% for image in gallery_images %}
+            <button type="button" class="mt-thumb{% if forloop.first %} is-active{% endif %}" data-mt-thumb data-index="{{ forloop.index0 }}">
+              <img src="{{ image | image_url: width: 140 }}" alt="" loading="lazy" width="70" height="70">
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
 
+<script>
+(function(){
+  var root = document.currentScript.previousElementSibling;
+  var wrap = root && root.querySelector ? root : null;
+  var gallery = document.querySelectorAll('[data-mt-gallery]');
+  gallery.forEach(function(g){
+    var track = g.querySelector('[data-mt-track]');
+    var slides = g.querySelectorAll('.mt-gallery__slide');
+    var dots = g.querySelectorAll('[data-mt-dot]');
+    var thumbs = g.querySelectorAll('[data-mt-thumb]');
+    var prev = g.querySelector('[data-mt-prev]');
+    var next = g.querySelector('[data-mt-next]');
+    var count = slides.length;
+    if(!count) return;
+
+    function goTo(i){
+      i = Math.max(0, Math.min(count - 1, i));
+      track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+    }
+    function setActive(i){
+      dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === i); });
+      thumbs.forEach(function(t, idx){ t.classList.toggle('is-active', idx === i); });
+    }
+
+    if(prev) prev.addEventListener('click', function(){
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      goTo(i - 1);
+    });
+    if(next) next.addEventListener('click', function(){
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      goTo(i + 1);
+    });
+    thumbs.forEach(function(t){
+      t.addEventListener('click', function(){ goTo(parseInt(t.dataset.index, 10)); });
+    });
+    track.addEventListener('scroll', function(){
+      var i = Math.round(track.scrollLeft / track.clientWidth);
+      setActive(i);
+    }, { passive: true });
+  });
+})();
+</script>
+
 {% schema %}
 {
-  "name": "MT Foto + infografías",
+  "name": "MT Galería",
   "tag": "section",
   "class": "mt-section-hero",
-  "settings": [
-    { "type": "image_picker", "id": "main_image", "label": "Foto principal (si se deja vacío, usa la foto destacada del producto)" },
-    { "type": "text", "id": "badge", "label": "Distintivo sobre la foto", "default": "Más vendido" },
-    {
-      "type": "select", "id": "background", "label": "Fondo",
-      "options": [
-        { "value": "", "label": "Crema" },
-        { "value": "mt-section--soft", "label": "Crema suave" },
-        { "value": "mt-section--sage", "label": "Verde salvia claro" }
-      ],
-      "default": ""
-    }
-  ],
-  "blocks": [
-    {
-      "type": "infografia",
-      "name": "Infografía",
-      "settings": [
-        { "type": "image_picker", "id": "image", "label": "Imagen (si se deja vacío, usa una foto del producto)" },
-        { "type": "text", "id": "label", "label": "Texto", "default": "Cómo funciona" }
-      ]
-    }
-  ],
-  "presets": [{ "name": "MT Foto + infografías" }]
+  "settings": [],
+  "presets": [{ "name": "MT Galería" }]
 }
 {% endschema %}
