@@ -132,6 +132,21 @@ El usuario señaló que faltaban piezas del layout real de Drevia en escritorio:
 - Acordeón alineado a las 4 categorías reales de Drevia: "Modo de uso",
   "Envío y entrega", "Sobre el producto", "Atención al cliente".
 
+## Tercera corrección (franja fija arriba, cómo se usa, comentarios finales)
+- Franja fija (no animada) bajo el marquee con cuenta atrás + "Envío gratis
+  24-48h", siempre visible sin necesidad de hacer scroll. Comparte la misma
+  cuenta atrás (localStorage `mt_offer_countdown`) que la de la caja de
+  compra, para que ambas muestren siempre el mismo tiempo.
+- Nueva sección "Así de fácil se usa" justo después de antes/después, con
+  el contenido EXACTO (textos y fotos) que ya tenías en el tema publicado
+  actualmente (Helio - Réplica Drevia, Horizon), leído directamente de su
+  `templates/product.json` con la Admin API.
+- Nueva sección de comentarios/reseñas de clientes en cuadrícula al final
+  de toda la página.
+- Nuevo orden: anuncios → ficha (galería+compra) → narrativa 1 → narrativa 2
+  → cita destacada → antes/después → cómo se usa → narrativa de cierre →
+  comentarios finales.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK

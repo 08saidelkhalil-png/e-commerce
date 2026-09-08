@@ -1,0 +1,60 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section {{ section.settings.background }}">
+  <div class="mt-wrap mt-wrap--wide mt-pad--lg">
+    {% if section.settings.heading != blank %}
+      <h2 class="mt-h2 mt-center">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="mt-reviews-grid">
+      {% for block in section.blocks %}
+        <div class="mt-review" {{ block.shopify_attributes }}>
+          <div class="mt-review__head">
+            <span class="mt-review__name">{{ block.settings.name }}</span>
+            {% if block.settings.verified %}
+              <span class="mt-review__verified">✓ Compra verificada</span>
+            {% endif %}
+          </div>
+          <div class="mt-review__stars">★★★★★</div>
+          <p class="mt-review__text">{{ block.settings.text }}</p>
+          {% if block.settings.image %}
+            <div class="mt-review__photos">
+              <img src="{{ block.settings.image | image_url: width: 130 }}" alt="Foto de {{ block.settings.name }}" loading="lazy" width="130" height="130">
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Comentarios",
+  "tag": "section",
+  "class": "mt-section-reviews-grid",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Lo que dicen nuestros clientes" },
+    {
+      "type": "select", "id": "background", "label": "Fondo",
+      "options": [
+        { "value": "", "label": "Blanco" },
+        { "value": "mt-section--soft", "label": "Verde muy claro" }
+      ],
+      "default": ""
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Reseña",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Cliente" },
+        { "type": "checkbox", "id": "verified", "label": "Compra verificada", "default": true },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Reseña del cliente." },
+        { "type": "image_picker", "id": "image", "label": "Foto (opcional)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Comentarios" }]
+}
+{% endschema %}

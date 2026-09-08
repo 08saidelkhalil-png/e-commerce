@@ -63,7 +63,7 @@
         </div>
 
         {% if section.settings.show_countdown %}
-          <div class="mt-countdown" data-mt-countdown data-duration-hours="{{ section.settings.countdown_hours }}" data-storage-key="mt_countdown_{{ section.id }}">
+          <div class="mt-countdown" data-mt-countdown data-duration-hours="{{ section.settings.countdown_hours }}" data-storage-key="mt_offer_countdown">
             <span>{{ section.settings.countdown_label }}</span>
             <span class="mt-countdown__time" data-mt-countdown-time>--:--:--</span>
           </div>
@@ -222,37 +222,8 @@
     if(next) next.addEventListener('click', function(){ show(i + 1); });
   });
 
-  // Cuenta atrás (se guarda por visitante para que no cambie en cada recarga)
-  document.querySelectorAll('[data-mt-countdown]').forEach(function(el){
-    var hours = parseFloat(el.dataset.durationHours) || 24;
-    var key = el.dataset.storageKey;
-    var timeEl = el.querySelector('[data-mt-countdown-time]');
-    var end;
-    try {
-      var stored = localStorage.getItem(key);
-      end = stored ? parseInt(stored, 10) : null;
-      if(!end || end < Date.now()){
-        end = Date.now() + hours * 3600 * 1000;
-        localStorage.setItem(key, String(end));
-      }
-    } catch(e){
-      end = Date.now() + hours * 3600 * 1000;
-    }
-    function tick(){
-      var diff = end - Date.now();
-      if(diff <= 0){
-        end = Date.now() + hours * 3600 * 1000;
-        try { localStorage.setItem(key, String(end)); } catch(e){}
-        diff = end - Date.now();
-      }
-      var h = Math.floor(diff / 3600000);
-      var m = Math.floor((diff % 3600000) / 60000);
-      var s = Math.floor((diff % 60000) / 1000);
-      timeEl.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    }
-    tick();
-    setInterval(tick, 1000);
-  });
+  // La cuenta atrás la actualiza el script de la barra de anuncios (mismo
+  // dato en localStorage 'mt_offer_countdown'), aquí no hace falta repetirlo.
 
   // Selección de variante + carrito
   var root = document.querySelector('[data-mt-buybox]');

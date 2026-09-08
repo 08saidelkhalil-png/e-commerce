@@ -1,0 +1,48 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-section">
+  <div class="mt-wrap mt-wrap--wide mt-pad">
+    {% if section.settings.heading != blank %}
+      <h2 class="mt-h2 mt-center">{{ section.settings.heading }}</h2>
+    {% endif %}
+    <div class="mt-steps">
+      {% for block in section.blocks %}
+        <div class="mt-step" {{ block.shopify_attributes }}>
+          <div class="mt-step__img">
+            {% assign img = block.settings.image | default: product.images[forloop.index] %}
+            {% if img %}
+              <img src="{{ img | image_url: width: 500 }}" alt="{{ block.settings.title }}" loading="lazy" width="500" height="500">
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+          <div class="mt-step__title">{{ block.settings.title }}</div>
+          <div class="mt-step__text">{{ block.settings.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Cómo se usa",
+  "tag": "section",
+  "class": "mt-section-how-to-use",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Así de fácil se usa" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto" },
+        { "type": "text", "id": "title", "label": "Título del paso", "default": "1. Paso" },
+        { "type": "textarea", "id": "text", "label": "Descripción", "default": "Descripción del paso." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Cómo se usa" }]
+}
+{% endschema %}

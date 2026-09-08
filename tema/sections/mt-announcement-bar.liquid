@@ -10,12 +10,58 @@
   </div>
 </div>
 
+{% if section.settings.show_strip %}
+  <div class="mt-announce-strip">
+    <span>⏳ {{ section.settings.strip_countdown_label }} <span class="mt-announce-strip__time" data-mt-countdown-time>--:--:--</span></span>
+    <span class="mt-announce-strip__sep">|</span>
+    <span>🚚 {{ section.settings.strip_shipping_text }}</span>
+  </div>
+{% endif %}
+
+<script>
+(function(){
+  var hours = {{ section.settings.strip_countdown_hours | default: 24 }};
+  var key = 'mt_offer_countdown';
+  var end;
+  try {
+    var stored = localStorage.getItem(key);
+    end = stored ? parseInt(stored, 10) : null;
+    if(!end || end < Date.now()){
+      end = Date.now() + hours * 3600 * 1000;
+      localStorage.setItem(key, String(end));
+    }
+  } catch(e){
+    end = Date.now() + hours * 3600 * 1000;
+  }
+  function tick(){
+    var diff = end - Date.now();
+    if(diff <= 0){
+      end = Date.now() + hours * 3600 * 1000;
+      try { localStorage.setItem(key, String(end)); } catch(e){}
+      diff = end - Date.now();
+    }
+    var h = Math.floor(diff / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    var text = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    document.querySelectorAll('[data-mt-countdown-time]').forEach(function(el){ el.textContent = text; });
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
 {% schema %}
 {
   "name": "MT Barra de anuncios",
   "tag": "section",
   "class": "mt-section-announce",
-  "settings": [],
+  "settings": [
+    { "type": "checkbox", "id": "show_strip", "label": "Mostrar franja fija de oferta", "default": true },
+    { "type": "text", "id": "strip_countdown_label", "label": "Etiqueta de la cuenta atrás", "default": "Oferta termina en:" },
+    { "type": "range", "id": "strip_countdown_hours", "label": "Duración de la cuenta atrás (horas)", "min": 1, "max": 72, "step": 1, "default": 24 },
+    { "type": "text", "id": "strip_shipping_text", "label": "Texto de envío", "default": "Envío gratis 24-48h" }
+  ],
   "blocks": [
     {
       "type": "item",

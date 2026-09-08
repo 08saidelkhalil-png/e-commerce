@@ -260,3 +260,32 @@
 /* Botón de pago acelerado nativo de Shopify (Comprar ahora) */
 .mt-payment-button{ margin-top:10px; }
 .mt-payment-button .shopify-payment-button__button{ font-family: inherit; }
+
+/* Franja fija bajo el marquee: cuenta atrás + envío gratis, siempre visible */
+.mt-announce-strip{
+  display:flex; align-items:center; justify-content:center; gap:16px;
+  flex-wrap:wrap;
+  background: var(--mt-green-tint); color: var(--mt-green-dark);
+  font-size:12.5px; font-weight:700; padding:8px 14px;
+  border-bottom:1px solid var(--mt-border);
+}
+.mt-announce-strip__time{ font-variant-numeric: tabular-nums; font-weight:800; }
+.mt-announce-strip__sep{ opacity:.4; }
+
+/* Cómo se usa: pasos con foto */
+.mt-steps{ display:grid; grid-template-columns: 1fr; gap:20px; }
+.mt-step__img{ border-radius: var(--mt-radius-lg); overflow:hidden; aspect-ratio:1/1; margin-bottom:14px; background:var(--mt-green-tint); }
+.mt-step__img img{ width:100%; height:100%; object-fit:cover; display:block; }
+.mt-step__title{ font-size:16px; font-weight:800; color:var(--mt-ink); margin:0 0 6px; }
+.mt-step__text{ font-size:14.5px; color:var(--mt-ink-soft); line-height:1.5; }
+@media (min-width:700px){
+  .mt-steps{ grid-template-columns: repeat(3, 1fr); gap:24px; }
+}
+
+/* Reseñas finales en cuadrícula */
+.mt-reviews-grid{ display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:700px){
+  .mt-reviews-grid{ grid-template-columns: repeat(3, 1fr); }
+}
+
+.mt-section--soft{ background: var(--mt-green-tint); }

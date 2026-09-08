@@ -2,6 +2,12 @@
   "sections": {
     "mt-announce": {
       "type": "mt-announcement-bar",
+      "settings": {
+        "show_strip": true,
+        "strip_countdown_label": "Oferta termina en:",
+        "strip_countdown_hours": 24,
+        "strip_shipping_text": "Envío gratis 24-48h"
+      },
       "blocks": {
         "b1": { "type": "item", "settings": { "icon": "🚚", "text": "Envío gratis 24-48h" } },
         "b2": { "type": "item", "settings": { "icon": "🔥", "text": "Oferta de lanzamiento" } },
@@ -80,6 +86,39 @@
       "type": "mt-before-after",
       "settings": {}
     },
+    "mt-how-to-use": {
+      "type": "mt-how-to-use",
+      "settings": {
+        "heading": "Así de fácil se usa"
+      },
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/69b5eb404132374752ff006adefecf0a.jpg",
+            "title": "1. Encaja el cepillo en la ranura",
+            "text": "El cabezal en forma de cuña se amolda al carril de la ventana o puerta corredera."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/217a35173ac7430759ac5c8d0d2949a2.jpg",
+            "title": "2. Desliza para arrastrar la suciedad",
+            "text": "El material texturizado despega el polvo y la suciedad incrustada sin rayar el aluminio ni el PVC."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "image": "shopify://shop_images/9011019039651589-bb903d84-d651-491b-b9c7-f1686ce52f1a-image_117F15SW046FE8SK2P50MBTAWX_0.png",
+            "title": "3. Usa el otro extremo para el cristal",
+            "text": "La almohadilla de microfibra deja el cristal limpio y sin marcas."
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
     "mt-story3": {
       "type": "mt-transformation",
       "settings": {
@@ -88,6 +127,22 @@
         "button_text": "Consigue el tuyo hoy"
       },
       "blocks": {}
+    },
+    "mt-reviews-final": {
+      "type": "mt-reviews-grid",
+      "settings": {
+        "heading": "Lo que dicen nuestros clientes",
+        "background": "mt-section--soft"
+      },
+      "blocks": {
+        "r1": { "type": "review", "settings": { "name": "Laura M.", "verified": true, "text": "Al principio dudaba si merecía la pena, pero llevaba meses con la ranura de la ventana negra y en un minuto quedó como nueva." } },
+        "r2": { "type": "review", "settings": { "name": "Carlos R.", "verified": true, "text": "Lo compré para las ventanas pero también lo uso en los rieles de la ducha y hasta en el teclado. Muy versátil." } },
+        "r3": { "type": "review", "settings": { "name": "Ana B.", "verified": true, "text": "Envío rápido y el cepillo cumple lo que promete. La almohadilla se puede lavar y sigue como nueva." } },
+        "r4": { "type": "review", "settings": { "name": "María G.", "verified": true, "text": "Me cambió la vida, la ranura quedó impecable en un minuto y sin arriesgarme a hacerme daño en las uñas." } },
+        "r5": { "type": "review", "settings": { "name": "Juan P.", "verified": true, "text": "Llegó en 24h y funciona mejor de lo que esperaba. El mango es cómodo y no resbala." } },
+        "r6": { "type": "review", "settings": { "name": "Sofía T.", "verified": true, "text": "Lo tengo en la cocina para las rejillas de ventilación. Pequeño pero muy efectivo." } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"]
     }
   },
   "order": [
@@ -97,6 +152,8 @@
     "mt-story2",
     "mt-quote",
     "mt-before-after",
-    "mt-story3"
+    "mt-how-to-use",
+    "mt-story3",
+    "mt-reviews-final"
   ]
 }
