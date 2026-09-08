@@ -116,6 +116,22 @@ bloque a bloque, cambiando solo color/copys al tono del producto:
   tachado solo aparece si existe compare_at_price real en la variante: la
   barra de urgencia es un ajuste editable, no un dato inventado como hecho.
 
+## Segunda corrección (layout de 2 columnas + extras)
+El usuario señaló que faltaban piezas del layout real de Drevia en escritorio:
+- Fotos a la izquierda y TODO lo demás (título, checklist, oferta, compra,
+  reseñas, acordeón) en una columna a la derecha, no apilado a ancho completo.
+  Se fusionó en una sola sección `mt-product-main.liquid` con CSS grid de 2
+  columnas (se apila en móvil).
+- Cuenta atrás editable (horas configurables, persistida por visitante en
+  localStorage para que no cambie en cada recarga).
+- Botón "Comprar ahora" nativo de Shopify (`{{ form | payment_button }}`)
+  junto a "Añadir al carrito", dentro de un `{% form 'product', product %}`
+  real (antes solo tenía fetch a mano).
+- Barra de anuncios: se repite el bloque de mensajes 10 veces (antes 2) para
+  que el marquee sea un bucle continuo sin huecos ni parón visible.
+- Acordeón alineado a las 4 categorías reales de Drevia: "Modo de uso",
+  "Envío y entrega", "Sobre el producto", "Atención al cliente".
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK

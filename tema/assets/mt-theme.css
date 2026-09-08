@@ -238,3 +238,25 @@
   font-weight: 700;
   color: var(--mt-green);
 }
+
+/* Ficha de producto: galería izquierda + columna de compra derecha */
+.mt-main-grid{ display:block; }
+.mt-main-grid__buy{ margin-top: 24px; }
+@media (min-width: 700px){
+  .mt-main-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:48px; align-items:start; }
+  .mt-main-grid__gallery{ position:sticky; top:100px; }
+  .mt-main-grid__buy{ margin-top:0; }
+}
+
+/* Cuenta atrás */
+.mt-countdown{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  background: var(--mt-green-tint); color: var(--mt-green-dark);
+  font-weight:700; padding:11px 14px; border-radius:8px; margin-bottom:16px;
+  font-size:13.5px; text-align:center;
+}
+.mt-countdown__time{ font-variant-numeric: tabular-nums; font-size:15px; font-weight:800; }
+
+/* Botón de pago acelerado nativo de Shopify (Comprar ahora) */
+.mt-payment-button{ margin-top:10px; }
+.mt-payment-button .shopify-payment-button__button{ font-family: inherit; }

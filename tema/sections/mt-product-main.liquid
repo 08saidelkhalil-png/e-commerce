@@ -1,0 +1,379 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign gallery_images = product.images %}
+
+<div class="mt-section">
+  <div class="mt-wrap mt-wrap--wide mt-pad">
+    <div class="mt-main-grid">
+
+      <div class="mt-main-grid__gallery">
+        <div class="mt-gallery" data-mt-gallery>
+          <div class="mt-gallery__main">
+            <div class="mt-gallery__track" data-mt-track>
+              {% for image in gallery_images %}
+                <div class="mt-gallery__slide">
+                  <img src="{{ image | image_url: width: 900 }}" alt="{{ image.alt | default: product.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" width="900" height="900">
+                </div>
+              {% else %}
+                <div class="mt-gallery__slide">{{ 'product-1' | placeholder_svg_tag }}</div>
+              {% endfor %}
+            </div>
+            {% if gallery_images.size > 1 %}
+              <button type="button" class="mt-gallery__arrow mt-gallery__arrow--prev" data-mt-prev aria-label="Anterior">‹</button>
+              <button type="button" class="mt-gallery__arrow mt-gallery__arrow--next" data-mt-next aria-label="Siguiente">›</button>
+            {% endif %}
+          </div>
+          {% if gallery_images.size > 1 %}
+            <div class="mt-gallery__dots" data-mt-dots>
+              {% for image in gallery_images %}
+                <span class="mt-gallery__dot{% if forloop.first %} is-active{% endif %}" data-mt-dot></span>
+              {% endfor %}
+            </div>
+            <div class="mt-thumbs" data-mt-thumbs>
+              {% for image in gallery_images %}
+                <button type="button" class="mt-thumb{% if forloop.first %} is-active{% endif %}" data-mt-thumb data-index="{{ forloop.index0 }}">
+                  <img src="{{ image | image_url: width: 140 }}" alt="" loading="lazy" width="70" height="70">
+                </button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="mt-main-grid__buy" data-mt-buybox>
+        <div class="mt-rating">
+          <span class="mt-rating__stars">★★★★★</span>
+          <span>{{ section.settings.rating }}/5 · Más de {{ section.settings.reviews_count }} reseñas</span>
+        </div>
+        <h1 class="mt-title">{{ section.settings.heading | default: product.title }}</h1>
+        <div class="mt-checklist">
+          {% for block in section.blocks %}
+            {% if block.type == 'check' %}
+              <div class="mt-check" {{ block.shopify_attributes }}>
+                <span class="mt-check__icon">✓</span>
+                <span>{{ block.settings.text }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="mt-divider">
+          <span class="mt-divider__text">{{ section.settings.promo_text }}</span>
+        </div>
+
+        {% if section.settings.show_countdown %}
+          <div class="mt-countdown" data-mt-countdown data-duration-hours="{{ section.settings.countdown_hours }}" data-storage-key="mt_countdown_{{ section.id }}">
+            <span>{{ section.settings.countdown_label }}</span>
+            <span class="mt-countdown__time" data-mt-countdown-time>--:--:--</span>
+          </div>
+        {% endif %}
+
+        {% form 'product', product, id: 'mt-product-form' %}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-mt-variant-input>
+
+          <div class="mt-bundles" data-mt-bundles>
+            {% for variant in product.variants %}
+              <label class="mt-bundle{% if variant.id == current_variant.id %} is-selected{% endif %}" data-mt-bundle data-variant-id="{{ variant.id }}" data-available="{{ variant.available }}">
+                <input type="radio" name="mt-variant-picker" value="{{ variant.id }}" {% if variant.id == current_variant.id %}checked{% endif %}>
+                {% if variant.title contains 'Pack' or variant.title contains 'pack' %}
+                  <span class="mt-bundle__badge">{{ section.settings.badge_text }}</span>
+                {% endif %}
+                <span class="mt-bundle__radio"></span>
+                <span class="mt-bundle__label">{{ variant.title }}</span>
+                <span class="mt-bundle__prices">
+                  <span class="mt-bundle__price">{{ variant.price | money }}</span>
+                  {% if variant.compare_at_price > variant.price %}
+                    <span class="mt-bundle__compare">{{ variant.compare_at_price | money }}</span>
+                  {% endif %}
+                </span>
+              </label>
+            {% endfor %}
+          </div>
+
+          <div class="mt-rewards">
+            {% for block in section.blocks %}
+              {% if block.type == 'reward' %}
+                <div class="mt-reward" {{ block.shopify_attributes }}>
+                  {% case block.settings.icon %}
+                    {% when 'shipping' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="14" height="11" rx="1.5"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="17.5" cy="19" r="1.6"/></svg>
+                    {% when 'warranty' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5z"/><path d="M9 12l2 2 4-4"/></svg>
+                    {% else %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+                  {% endcase %}
+                  <div class="mt-reward__label">{{ block.settings.label }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <button type="submit" class="mt-btn" data-mt-add-btn>
+            <span data-mt-add-label>{{ section.settings.button_text }}</span>
+            <span class="mt-btn__arrow">→</span>
+          </button>
+
+          <div class="mt-payment-button">
+            {{ form | payment_button }}
+          </div>
+        {% endform %}
+
+        <div class="mt-returns">
+          <span>⇄</span>
+          <span>{{ section.settings.returns_text }}</span>
+        </div>
+
+        <div class="mt-payments">
+          <span>Visa</span><span>Mastercard</span><span>Amex</span><span>PayPal</span><span>Apple Pay</span>
+        </div>
+
+        {% if section.settings.show_scarcity %}
+          <div class="mt-scarcity">
+            <div class="mt-scarcity__bar"><div class="mt-scarcity__fill" style="width:{{ section.settings.scarcity_percent }}%"></div></div>
+            <div class="mt-scarcity__row">
+              <span>⚠️ {{ section.settings.scarcity_label }}</span>
+              <span>{{ section.settings.scarcity_percent }}% agotado</span>
+            </div>
+          </div>
+        {% endif %}
+
+        {% assign reviews = section.blocks | where: 'type', 'review' %}
+        {% if reviews.size > 0 %}
+          <div class="mt-review-carousel" data-mt-carousel style="margin-top:22px;">
+            {% for block in reviews %}
+              <div class="mt-review-slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+                <div class="mt-review-slide__avatar" style="background:var(--mt-green-tint);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--mt-green);">{{ block.settings.name | slice: 0, 1 }}</div>
+                <div class="mt-review-slide__stars">★★★★★</div>
+                <p class="mt-review-slide__text">"{{ block.settings.text }}"</p>
+                <div class="mt-review-slide__name">{{ block.settings.name }}</div>
+              </div>
+            {% endfor %}
+            <div class="mt-carousel-nav">
+              <button type="button" data-mt-carousel-prev aria-label="Anterior">‹</button>
+              <div class="mt-gallery__dots" data-mt-carousel-dots>
+                {% for block in reviews %}<span class="mt-gallery__dot{% if forloop.first %} is-active{% endif %}"></span>{% endfor %}
+              </div>
+              <button type="button" data-mt-carousel-next aria-label="Siguiente">›</button>
+            </div>
+          </div>
+        {% endif %}
+
+        {% assign faqs = section.blocks | where: 'type', 'faq' %}
+        {% if faqs.size > 0 %}
+          <div class="mt-accordion" style="margin-top:8px;">
+            {% for block in faqs %}
+              <details class="mt-accordion__item" {{ block.shopify_attributes }}>
+                <summary class="mt-accordion__q">
+                  <span class="mt-accordion__q-icon">{{ block.settings.icon }}</span>
+                  <span class="mt-accordion__q-text">{{ block.settings.question }}</span>
+                  <span class="mt-accordion__chevron">⌄</span>
+                </summary>
+                <div class="mt-accordion__a">{{ block.settings.answer }}</div>
+              </details>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Galería
+  document.querySelectorAll('[data-mt-gallery]').forEach(function(g){
+    var track = g.querySelector('[data-mt-track]');
+    var slides = g.querySelectorAll('.mt-gallery__slide');
+    var dots = g.querySelectorAll('[data-mt-dot]');
+    var thumbs = g.querySelectorAll('[data-mt-thumb]');
+    var prev = g.querySelector('[data-mt-prev]');
+    var next = g.querySelector('[data-mt-next]');
+    var count = slides.length;
+    if(!count) return;
+    function goTo(i){
+      i = Math.max(0, Math.min(count - 1, i));
+      track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+    }
+    function setActive(i){
+      dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === i); });
+      thumbs.forEach(function(t, idx){ t.classList.toggle('is-active', idx === i); });
+    }
+    if(prev) prev.addEventListener('click', function(){ goTo(Math.round(track.scrollLeft / track.clientWidth) - 1); });
+    if(next) next.addEventListener('click', function(){ goTo(Math.round(track.scrollLeft / track.clientWidth) + 1); });
+    thumbs.forEach(function(t){ t.addEventListener('click', function(){ goTo(parseInt(t.dataset.index, 10)); }); });
+    track.addEventListener('scroll', function(){ setActive(Math.round(track.scrollLeft / track.clientWidth)); }, { passive: true });
+  });
+
+  // Reseñas carrusel
+  document.querySelectorAll('[data-mt-carousel]').forEach(function(c){
+    var slides = c.querySelectorAll('.mt-review-slide');
+    if(!slides.length) return;
+    var dots = c.querySelectorAll('[data-mt-carousel-dots] .mt-gallery__dot');
+    var prev = c.querySelector('[data-mt-carousel-prev]');
+    var next = c.querySelector('[data-mt-carousel-next]');
+    var i = 0;
+    function show(n){
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function(s, idx){ s.classList.toggle('is-active', idx === i); });
+      dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === i); });
+    }
+    if(prev) prev.addEventListener('click', function(){ show(i - 1); });
+    if(next) next.addEventListener('click', function(){ show(i + 1); });
+  });
+
+  // Cuenta atrás (se guarda por visitante para que no cambie en cada recarga)
+  document.querySelectorAll('[data-mt-countdown]').forEach(function(el){
+    var hours = parseFloat(el.dataset.durationHours) || 24;
+    var key = el.dataset.storageKey;
+    var timeEl = el.querySelector('[data-mt-countdown-time]');
+    var end;
+    try {
+      var stored = localStorage.getItem(key);
+      end = stored ? parseInt(stored, 10) : null;
+      if(!end || end < Date.now()){
+        end = Date.now() + hours * 3600 * 1000;
+        localStorage.setItem(key, String(end));
+      }
+    } catch(e){
+      end = Date.now() + hours * 3600 * 1000;
+    }
+    function tick(){
+      var diff = end - Date.now();
+      if(diff <= 0){
+        end = Date.now() + hours * 3600 * 1000;
+        try { localStorage.setItem(key, String(end)); } catch(e){}
+        diff = end - Date.now();
+      }
+      var h = Math.floor(diff / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+      timeEl.textContent = String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  });
+
+  // Selección de variante + carrito
+  var root = document.querySelector('[data-mt-buybox]');
+  if(!root) return;
+  var form = root.querySelector('#mt-product-form') || root.querySelector('form');
+  var bundles = root.querySelectorAll('[data-mt-bundle]');
+  var variantInput = root.querySelector('[data-mt-variant-input]');
+  var addBtn = root.querySelector('[data-mt-add-btn]');
+  var addLabel = root.querySelector('[data-mt-add-label]');
+  var addLabelDefault = addLabel ? addLabel.textContent.trim() : '';
+
+  function selected(){
+    var checked = root.querySelector('[data-mt-bundle] input:checked');
+    return checked ? checked.closest('[data-mt-bundle]') : null;
+  }
+
+  function updateUI(){
+    var el = selected();
+    if(!el) return;
+    bundles.forEach(function(b){ b.classList.toggle('is-selected', b === el); });
+    if(variantInput) variantInput.value = el.dataset.variantId;
+    var available = el.dataset.available === 'true';
+    if(addBtn) addBtn.disabled = !available;
+    if(addLabel) addLabel.textContent = available ? addLabelDefault : 'Agotado';
+  }
+
+  bundles.forEach(function(b){
+    b.addEventListener('click', function(){
+      var input = b.querySelector('input');
+      if(input) input.checked = true;
+      updateUI();
+    });
+  });
+
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var el = selected();
+      if(!el || el.dataset.available !== 'true') return;
+      addBtn.disabled = true;
+      if(addLabel) addLabel.textContent = 'Añadiendo…';
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ id: el.dataset.variantId, quantity: 1 })
+      })
+        .then(function(r){ if(!r.ok) throw new Error('add failed'); return r.json(); })
+        .then(function(){ window.location.href = window.Shopify.routes.root + 'cart'; })
+        .catch(function(){
+          if(addLabel) addLabel.textContent = 'Error, prueba de nuevo';
+          addBtn.disabled = false;
+        });
+    });
+  }
+
+  updateUI();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "MT Ficha de producto",
+  "tag": "section",
+  "class": "mt-section-product-main",
+  "settings": [
+    { "type": "text", "id": "rating", "label": "Valoración media", "default": "4.9" },
+    { "type": "text", "id": "reviews_count", "label": "Número de valoraciones", "default": "2.340" },
+    { "type": "text", "id": "heading", "label": "Título (vacío = título del producto)" },
+    { "type": "text", "id": "promo_text", "label": "Texto del divisor", "default": "Oferta de lanzamiento" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Mostrar cuenta atrás", "default": true },
+    { "type": "text", "id": "countdown_label", "label": "Etiqueta de la cuenta atrás", "default": "Oferta termina en:" },
+    { "type": "range", "id": "countdown_hours", "label": "Duración de la cuenta atrás (horas)", "min": 1, "max": 72, "step": 1, "default": 24 },
+    { "type": "text", "id": "badge_text", "label": "Distintivo en el pack", "default": "MÁS VENDIDO" },
+    { "type": "text", "id": "button_text", "label": "Texto del botón", "default": "Añadir al carrito" },
+    { "type": "text", "id": "returns_text", "label": "Texto de devolución", "default": "Garantía de devolución de 30 días" },
+    { "type": "checkbox", "id": "show_scarcity", "label": "Mostrar barra de unidades", "default": true },
+    { "type": "text", "id": "scarcity_label", "label": "Etiqueta de urgencia", "default": "Oferta por tiempo limitado" },
+    { "type": "range", "id": "scarcity_percent", "label": "% agotado", "min": 10, "max": 95, "step": 5, "default": 70 }
+  ],
+  "blocks": [
+    {
+      "type": "check",
+      "name": "Beneficio (checklist)",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "Beneficio" }
+      ]
+    },
+    {
+      "type": "reward",
+      "name": "Icono de confianza",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Icono",
+          "options": [
+            { "value": "shipping", "label": "Envío" },
+            { "value": "warranty", "label": "Garantía" },
+            { "value": "secure", "label": "Seguridad" }
+          ],
+          "default": "shipping"
+        },
+        { "type": "text", "id": "label", "label": "Texto", "default": "Envío gratis" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Reseña corta",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "María G." },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Me cambió la vida" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "Pregunta del acordeón",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icono/emoji", "default": "❓" },
+        { "type": "text", "id": "question", "label": "Pregunta", "default": "Modo de uso" },
+        { "type": "textarea", "id": "answer", "label": "Respuesta", "default": "Respuesta." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "MT Ficha de producto" }]
+}
+{% endschema %}

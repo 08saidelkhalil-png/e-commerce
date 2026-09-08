@@ -9,26 +9,16 @@
       },
       "block_order": ["b1", "b2", "b3"]
     },
-    "mt-hero": { "type": "mt-hero-gallery" },
-    "mt-title": {
-      "type": "mt-title-benefits",
+    "mt-main": {
+      "type": "mt-product-main",
       "settings": {
         "rating": "4.9",
         "reviews_count": "2.340",
-        "heading": "El cepillo 2 en 1 que deja cada ranura como nueva"
-      },
-      "blocks": {
-        "b1": { "type": "check", "settings": { "text": "Limpia sin rayar aluminio ni PVC" } },
-        "b2": { "type": "check", "settings": { "text": "Sin dañarte las uñas" } },
-        "b3": { "type": "check", "settings": { "text": "Almohadilla lavable y reutilizable" } },
-        "b4": { "type": "check", "settings": { "text": "Sirve para ventanas, duchas y armarios" } }
-      },
-      "block_order": ["b1", "b2", "b3", "b4"]
-    },
-    "mt-buybox": {
-      "type": "mt-offer-buybox",
-      "settings": {
+        "heading": "El cepillo 2 en 1 que deja cada ranura como nueva",
         "promo_text": "Oferta de lanzamiento",
+        "show_countdown": true,
+        "countdown_label": "Oferta termina en:",
+        "countdown_hours": 24,
         "badge_text": "MÁS VENDIDO",
         "button_text": "Añadir al carrito",
         "returns_text": "Garantía de devolución de 30 días",
@@ -37,30 +27,22 @@
         "scarcity_percent": 65
       },
       "blocks": {
-        "b1": { "type": "reward", "settings": { "icon": "shipping", "label": "Envío gratis 24-48h" } },
-        "b2": { "type": "reward", "settings": { "icon": "warranty", "label": "Garantía 30 días" } },
-        "b3": { "type": "reward", "settings": { "icon": "secure", "label": "Pago 100% seguro" } }
+        "c1": { "type": "check", "settings": { "text": "Limpia sin rayar aluminio ni PVC" } },
+        "c2": { "type": "check", "settings": { "text": "Sin dañarte las uñas" } },
+        "c3": { "type": "check", "settings": { "text": "Almohadilla lavable y reutilizable" } },
+        "c4": { "type": "check", "settings": { "text": "Sirve para ventanas, duchas y armarios" } },
+        "r1": { "type": "reward", "settings": { "icon": "shipping", "label": "Envío gratis 24-48h" } },
+        "r2": { "type": "reward", "settings": { "icon": "warranty", "label": "Garantía 30 días" } },
+        "r3": { "type": "reward", "settings": { "icon": "secure", "label": "Pago 100% seguro" } },
+        "rv1": { "type": "review", "settings": { "name": "María G.", "text": "Me cambió la vida, la ranura quedó impecable en un minuto" } },
+        "rv2": { "type": "review", "settings": { "name": "Juan P.", "text": "Llegó en 24h y funciona mejor de lo que esperaba" } },
+        "rv3": { "type": "review", "settings": { "name": "Ana R.", "text": "Lo uso también en los rieles de la ducha, genial" } },
+        "f1": { "type": "faq", "settings": { "icon": "❓", "question": "Modo de uso", "answer": "Encaja el extremo de cerdas en la ranura y desliza; usa la almohadilla de microfibra para el cristal." } },
+        "f2": { "type": "faq", "settings": { "icon": "🚚", "question": "Envío y entrega", "answer": "Entre 24 y 48 horas laborables en península." } },
+        "f3": { "type": "faq", "settings": { "icon": "📋", "question": "Sobre el producto", "answer": "Cerdas de nailon resistente y almohadilla de microfibra reutilizable y lavable. Mango ergonómico de unos 14 cm." } },
+        "f4": { "type": "faq", "settings": { "icon": "🎧", "question": "Atención al cliente", "answer": "¿Dudas o algo no fue como esperabas? Escríbenos y te respondemos en menos de 24h. Garantía de devolución de 30 días." } }
       },
-      "block_order": ["b1", "b2", "b3"]
-    },
-    "mt-mini-reviews": {
-      "type": "mt-mini-reviews",
-      "blocks": {
-        "b1": { "type": "review", "settings": { "name": "María G.", "text": "Me cambió la vida, la ranura quedó impecable en un minuto" } },
-        "b2": { "type": "review", "settings": { "name": "Juan P.", "text": "Llegó en 24h y funciona mejor de lo que esperaba" } },
-        "b3": { "type": "review", "settings": { "name": "Ana R.", "text": "Lo uso también en los rieles de la ducha, genial" } }
-      },
-      "block_order": ["b1", "b2", "b3"]
-    },
-    "mt-faq": {
-      "type": "mt-faq-accordion",
-      "blocks": {
-        "b1": { "type": "faq", "settings": { "icon": "🚚", "question": "¿Cuánto tarda el envío?", "answer": "Entre 24 y 48 horas laborables en península." } },
-        "b2": { "type": "faq", "settings": { "icon": "🧽", "question": "¿Cómo se usa?", "answer": "Encaja el extremo de cerdas en la ranura y desliza; usa la almohadilla de microfibra para el cristal." } },
-        "b3": { "type": "faq", "settings": { "icon": "🔄", "question": "¿Y si no me funciona?", "answer": "Tienes 30 días de garantía y devolución gratuita, sin preguntas." } },
-        "b4": { "type": "faq", "settings": { "icon": "📏", "question": "Materiales y medidas", "answer": "Cerdas de nailon resistente y almohadilla de microfibra reutilizable. Mango ergonómico de unos 14 cm." } }
-      },
-      "block_order": ["b1", "b2", "b3", "b4"]
+      "block_order": ["c1", "c2", "c3", "c4", "r1", "r2", "r3", "rv1", "rv2", "rv3", "f1", "f2", "f3", "f4"]
     },
     "mt-story1": {
       "type": "mt-transformation",
@@ -110,11 +92,7 @@
   },
   "order": [
     "mt-announce",
-    "mt-hero",
-    "mt-title",
-    "mt-buybox",
-    "mt-mini-reviews",
-    "mt-faq",
+    "mt-main",
     "mt-story1",
     "mt-story2",
     "mt-quote",
