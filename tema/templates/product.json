@@ -18,22 +18,121 @@
         "scarcity_percent": 65
       },
       "blocks": {
-        "c1": { "type": "check", "settings": { "text": "Limpia sin rayar aluminio ni PVC" } },
-        "c2": { "type": "check", "settings": { "text": "Sin dañarte las uñas" } },
-        "c3": { "type": "check", "settings": { "text": "Almohadilla lavable y reutilizable" } },
-        "c4": { "type": "check", "settings": { "text": "Sirve para ventanas, duchas y armarios" } },
-        "r1": { "type": "reward", "settings": { "icon": "shipping", "label": "Envío gratis 24-48h" } },
-        "r2": { "type": "reward", "settings": { "icon": "warranty", "label": "Garantía 30 días" } },
-        "r3": { "type": "reward", "settings": { "icon": "secure", "label": "Pago 100% seguro" } },
-        "rv1": { "type": "review", "settings": { "name": "María G.", "text": "Me cambió la vida, la ranura quedó impecable en un minuto" } },
-        "rv2": { "type": "review", "settings": { "name": "Juan P.", "text": "Llegó en 24h y funciona mejor de lo que esperaba" } },
-        "rv3": { "type": "review", "settings": { "name": "Ana R.", "text": "Lo uso también en los rieles de la ducha, genial" } },
-        "f1": { "type": "faq", "settings": { "icon": "❓", "question": "Modo de uso", "answer": "Encaja el extremo de cerdas en la ranura y desliza; usa la almohadilla de microfibra para el cristal." } },
-        "f2": { "type": "faq", "settings": { "icon": "🚚", "question": "Envío y entrega", "answer": "Entre 24 y 48 horas laborables en península." } },
-        "f3": { "type": "faq", "settings": { "icon": "📋", "question": "Sobre el producto", "answer": "Cerdas de nailon resistente y almohadilla de microfibra reutilizable y lavable. Mango ergonómico de unos 14 cm." } },
-        "f4": { "type": "faq", "settings": { "icon": "🎧", "question": "Atención al cliente", "answer": "¿Dudas o algo no fue como esperabas? Escríbenos y te respondemos en menos de 24h. Garantía de devolución de 30 días." } }
+        "c1": {
+          "type": "check",
+          "settings": {
+            "text": "Limpia sin rayar aluminio ni PVC"
+          }
+        },
+        "c2": {
+          "type": "check",
+          "settings": {
+            "text": "Sin dañarte las uñas"
+          }
+        },
+        "c3": {
+          "type": "check",
+          "settings": {
+            "text": "Almohadilla lavable y reutilizable"
+          }
+        },
+        "c4": {
+          "type": "check",
+          "settings": {
+            "text": "Sirve para ventanas, duchas y armarios"
+          }
+        },
+        "r1": {
+          "type": "reward",
+          "settings": {
+            "icon": "shipping",
+            "label": "Envío gratis 24-48h"
+          }
+        },
+        "r2": {
+          "type": "reward",
+          "settings": {
+            "icon": "warranty",
+            "label": "Garantía 30 días"
+          }
+        },
+        "r3": {
+          "type": "reward",
+          "settings": {
+            "icon": "secure",
+            "label": "Pago 100% seguro"
+          }
+        },
+        "rv1": {
+          "type": "review",
+          "settings": {
+            "name": "María G.",
+            "text": "Me cambió la vida, la ranura quedó impecable en un minuto"
+          }
+        },
+        "rv2": {
+          "type": "review",
+          "settings": {
+            "name": "Juan P.",
+            "text": "Llegó en 24h y funciona mejor de lo que esperaba"
+          }
+        },
+        "rv3": {
+          "type": "review",
+          "settings": {
+            "name": "Ana R.",
+            "text": "Lo uso también en los rieles de la ducha, genial"
+          }
+        },
+        "f1": {
+          "type": "faq",
+          "settings": {
+            "icon": "❓",
+            "question": "Modo de uso",
+            "answer": "Encaja el extremo de cerdas en la ranura y desliza; usa la almohadilla de microfibra para el cristal."
+          }
+        },
+        "f2": {
+          "type": "faq",
+          "settings": {
+            "icon": "🚚",
+            "question": "Envío y entrega",
+            "answer": "Entre 24 y 48 horas laborables en península."
+          }
+        },
+        "f3": {
+          "type": "faq",
+          "settings": {
+            "icon": "📋",
+            "question": "Sobre el producto",
+            "answer": "Cerdas de nailon resistente y almohadilla de microfibra reutilizable y lavable. Mango ergonómico de unos 14 cm."
+          }
+        },
+        "f4": {
+          "type": "faq",
+          "settings": {
+            "icon": "🎧",
+            "question": "Atención al cliente",
+            "answer": "¿Dudas o algo no fue como esperabas? Escríbenos y te respondemos en menos de 24h. Garantía de devolución de 30 días."
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "r1", "r2", "r3", "rv1", "rv2", "rv3", "f1", "f2", "f3", "f4"]
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "r1",
+        "r2",
+        "r3",
+        "rv1",
+        "rv2",
+        "rv3",
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ]
     },
     "mt-story1": {
       "type": "mt-transformation",
@@ -43,9 +142,16 @@
         "button_text": "Consigue el tuyo hoy"
       },
       "blocks": {
-        "b1": { "type": "paragraph", "settings": { "text": "Llevas años usando lo que tienes a mano —un cuchillo, un palillo, un trapo enrollado— para sacar la suciedad de la ranura. Y cada vez es peor: rayas el aluminio, te haces daño en las uñas, y la mugre vuelve a los pocos días." } }
+        "b1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Llevas años usando lo que tienes a mano —un cuchillo, un palillo, un trapo enrollado— para sacar la suciedad de la ranura. Y cada vez es peor: rayas el aluminio, te haces daño en las uñas, y la mugre vuelve a los pocos días."
+          }
+        }
       },
-      "block_order": ["b1"]
+      "block_order": [
+        "b1"
+      ]
     },
     "mt-story2": {
       "type": "mt-transformation",
@@ -54,22 +160,57 @@
         "show_button": false
       },
       "blocks": {
-        "b1": { "type": "paragraph", "settings": { "text": "Es la que no ves. Debajo de esa primera capa de polvo hay una mezcla de grasa y humedad que se ha ido pegando al carril durante meses. Ningún trapo llega ahí." } },
-        "b2": { "type": "paragraph", "settings": { "text": "Por eso el cepillo tiene dos extremos: uno con cerdas en forma de cuña que se cuela en cada rincón, y otro con una almohadilla de microfibra para dejar el cristal sin marcas." } }
+        "b1": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Es la que no ves. Debajo de esa primera capa de polvo hay una mezcla de grasa y humedad que se ha ido pegando al carril durante meses. Ningún trapo llega ahí."
+          }
+        },
+        "b2": {
+          "type": "paragraph",
+          "settings": {
+            "text": "Por eso el cepillo tiene dos extremos: uno con cerdas en forma de cuña que se cuela en cada rincón, y otro con una almohadilla de microfibra para dejar el cristal sin marcas."
+          }
+        }
       },
-      "block_order": ["b1", "b2"]
+      "block_order": [
+        "b1",
+        "b2"
+      ]
     },
     "mt-quote": {
       "type": "mt-reviews-long",
       "blocks": {
-        "b1": { "type": "quote", "settings": { "headline": "Por fin algo que sí llega al fondo", "text": "Llevaba meses intentando limpiar la ranura de la ventana con un cuchillo viejo. Con esto lo hago en un minuto y sin arriesgarme a cortarme.", "name": "Laura M." } },
-        "b2": { "type": "quote", "settings": { "headline": "Lo uso hasta en el teclado", "text": "Lo compré para las ventanas pero acabé usándolo para los rieles de la ducha y hasta para las rejillas de ventilación.", "name": "Carlos R." } }
+        "b1": {
+          "type": "quote",
+          "settings": {
+            "headline": "Por fin algo que sí llega al fondo",
+            "text": "Llevaba meses intentando limpiar la ranura de la ventana con un cuchillo viejo. Con esto lo hago en un minuto y sin arriesgarme a cortarme.",
+            "name": "Laura M."
+          }
+        },
+        "b2": {
+          "type": "quote",
+          "settings": {
+            "headline": "Lo uso hasta en el teclado",
+            "text": "Lo compré para las ventanas pero acabé usándolo para los rieles de la ducha y hasta para las rejillas de ventilación.",
+            "name": "Carlos R."
+          }
+        }
       },
-      "block_order": ["b1", "b2"]
+      "block_order": [
+        "b1",
+        "b2"
+      ]
     },
     "mt-before-after": {
       "type": "mt-before-after",
-      "settings": {}
+      "settings": {
+        "before_image": "shopify://shop_images/3621801900849135-6f2bd4b4-d271-4338-a7b8-cd26864cc3cf-image_3G1GSPMR7Q6TAGC6065F48MSVA_0.png",
+        "after_image": "shopify://shop_images/3411345336338228-aa6ccc70-bd14-4445-93fd-2cfd66dac37f-image_6QDE3PEY5GQ4ESN2Z6GNXNEV9V_0.png",
+        "before_label": "Antes",
+        "after_label": "Después"
+      }
     },
     "mt-how-to-use": {
       "type": "mt-how-to-use",
@@ -102,7 +243,11 @@
           }
         }
       },
-      "block_order": ["s1", "s2", "s3"]
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ]
     },
     "mt-story3": {
       "type": "mt-transformation",
@@ -120,14 +265,63 @@
         "background": "mt-section--soft"
       },
       "blocks": {
-        "r1": { "type": "review", "settings": { "name": "Laura M.", "verified": true, "text": "Al principio dudaba si merecía la pena, pero llevaba meses con la ranura de la ventana negra y en un minuto quedó como nueva." } },
-        "r2": { "type": "review", "settings": { "name": "Carlos R.", "verified": true, "text": "Lo compré para las ventanas pero también lo uso en los rieles de la ducha y hasta en el teclado. Muy versátil." } },
-        "r3": { "type": "review", "settings": { "name": "Ana B.", "verified": true, "text": "Envío rápido y el cepillo cumple lo que promete. La almohadilla se puede lavar y sigue como nueva." } },
-        "r4": { "type": "review", "settings": { "name": "María G.", "verified": true, "text": "Me cambió la vida, la ranura quedó impecable en un minuto y sin arriesgarme a hacerme daño en las uñas." } },
-        "r5": { "type": "review", "settings": { "name": "Juan P.", "verified": true, "text": "Llegó en 24h y funciona mejor de lo que esperaba. El mango es cómodo y no resbala." } },
-        "r6": { "type": "review", "settings": { "name": "Sofía T.", "verified": true, "text": "Lo tengo en la cocina para las rejillas de ventilación. Pequeño pero muy efectivo." } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Laura M.",
+            "verified": true,
+            "text": "Al principio dudaba si merecía la pena, pero llevaba meses con la ranura de la ventana negra y en un minuto quedó como nueva."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Carlos R.",
+            "verified": true,
+            "text": "Lo compré para las ventanas pero también lo uso en los rieles de la ducha y hasta en el teclado. Muy versátil."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Ana B.",
+            "verified": true,
+            "text": "Envío rápido y el cepillo cumple lo que promete. La almohadilla se puede lavar y sigue como nueva."
+          }
+        },
+        "r4": {
+          "type": "review",
+          "settings": {
+            "name": "María G.",
+            "verified": true,
+            "text": "Me cambió la vida, la ranura quedó impecable en un minuto y sin arriesgarme a hacerme daño en las uñas."
+          }
+        },
+        "r5": {
+          "type": "review",
+          "settings": {
+            "name": "Juan P.",
+            "verified": true,
+            "text": "Llegó en 24h y funciona mejor de lo que esperaba. El mango es cómodo y no resbala."
+          }
+        },
+        "r6": {
+          "type": "review",
+          "settings": {
+            "name": "Sofía T.",
+            "verified": true,
+            "text": "Lo tengo en la cocina para las rejillas de ventilación. Pequeño pero muy efectivo."
+          }
+        }
       },
-      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6"]
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ]
     }
   },
   "order": [

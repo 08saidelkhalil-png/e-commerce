@@ -159,6 +159,12 @@ fija, sin animación) va ANTES del logo; `mt-announcement-bar` (la barra que
 se mueve) vuelve a ir DESPUÉS del logo, dentro del mismo header-group.
 Ambas comparten la cuenta atrás vía localStorage `mt_offer_countdown`.
 
+## Sexta corrección (fotos reales en antes/después)
+El comparador antes/después usaba de momento dos fotos de producto como
+marcador de posición. Ahora usa las fotos REALES de "ranura sucia" / "ranura
+limpia" que ya existían en el tema publicado (Helio - Réplica Drevia),
+mismas referencias `shopify://shop_images/...` copiadas de ahí.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK
