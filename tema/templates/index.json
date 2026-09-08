@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "mt-hero": {
+      "type": "mt-home-hero",
+      "settings": {
+        "image": "shopify://shop_images/f07d97b3c43cb20810d1753f6939cf67.jpg",
+        "eyebrow": "Novedad",
+        "heading": "El cepillo 2 en 1 que deja cada ranura como nueva",
+        "subheading": "Limpia ventanas, duchas y armarios sin rayar ni hacerte daño en las uñas.",
+        "button_text": "Comprar ahora",
+        "button_link": "/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1"
+      }
+    }
+  },
+  "order": [
+    "mt-hero"
+  ]
+}

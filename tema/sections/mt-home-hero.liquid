@@ -1,0 +1,38 @@
+{{ 'mt-theme.css' | asset_url | stylesheet_tag }}
+
+<div class="mt-home-hero">
+  {% if section.settings.image %}
+    <img class="mt-home-hero__bg" src="{{ section.settings.image | image_url: width: 1800 }}" alt="{{ section.settings.heading | strip_html }}" loading="eager" width="1800" height="1200">
+  {% endif %}
+  <div class="mt-home-hero__overlay"></div>
+  <div class="mt-home-hero__card">
+    {% if section.settings.eyebrow != blank %}
+      <span class="mt-eyebrow">{{ section.settings.eyebrow }}</span>
+    {% endif %}
+    <h1 class="mt-home-hero__heading">{{ section.settings.heading }}</h1>
+    {% if section.settings.subheading != blank %}
+      <p class="mt-home-hero__sub">{{ section.settings.subheading }}</p>
+    {% endif %}
+    <a href="{{ section.settings.button_link }}" class="mt-btn mt-home-hero__btn">
+      <span>{{ section.settings.button_text }}</span>
+      <span class="mt-btn__arrow">→</span>
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MT Portada",
+  "tag": "section",
+  "class": "mt-section-home-hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Foto de fondo" },
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "Novedad" },
+    { "type": "text", "id": "heading", "label": "Titular", "default": "El cepillo 2 en 1 que deja cada ranura como nueva" },
+    { "type": "textarea", "id": "subheading", "label": "Subtítulo", "default": "Limpia ventanas, duchas y armarios sin rayar ni hacerte daño en las uñas." },
+    { "type": "text", "id": "button_text", "label": "Texto del botón", "default": "Comprar ahora" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+  ],
+  "presets": [{ "name": "MT Portada" }]
+}
+{% endschema %}

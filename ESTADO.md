@@ -165,6 +165,28 @@ marcador de posición. Ahora usa las fotos REALES de "ranura sucia" / "ranura
 limpia" que ya existían en el tema publicado (Helio - Réplica Drevia),
 mismas referencias `shopify://shop_images/...` copiadas de ahí.
 
+## ⚠️ Cambio importante: el tema pasó a estar PUBLICADO
+El usuario publicó "VitaReva - Diseno IA" (gid://shopify/OnlineStoreTheme/207033532754,
+role MAIN) desde el editor de Shopify. A partir de ahí, esta sesión ya NO
+puede escribir directamente sobre ese tema (bloqueado por seguridad:
+"Theme file writes against the live storefront are blocked"). Se duplicó
+como nuevo tema NO publicado para seguir trabajando:
+- ID: gid://shopify/OnlineStoreTheme/207046803794
+- Nombre: "VitaReva - Diseno IA (borrador)"
+- Enlace de previsualización:
+  https://3xhcyv-yu.myshopify.com/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1?preview_theme_id=207046803794
+Todos los cambios a partir de ahora se hacen en este borrador. El usuario
+debe revisarlo y publicarlo él mismo cuando esté conforme (Shopify admin →
+Temas → ⋯ → Publicar), igual que hizo con el anterior.
+
+## Séptima corrección (portada/home)
+La portada por defecto de Dawn ("Browse our latest products" con
+ilustración genérica) se sustituyó por `mt-home-hero`: imagen a pantalla
+completa con la foto REAL del producto (la misma que ya se usaba de fondo
+en la portada del otro tema publicado), tarjeta con titular + subtítulo +
+botón "Comprar ahora" que lleva a la ficha de producto. Aplicado en el tema
+borrador (207046803794), no en el que está en vivo.
+
 ## Fase actual
 - Fase 0 (entorno): OK
 - Fase 1 (conexión + sondeo): OK
