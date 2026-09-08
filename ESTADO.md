@@ -165,19 +165,29 @@ marcador de posición. Ahora usa las fotos REALES de "ranura sucia" / "ranura
 limpia" que ya existían en el tema publicado (Helio - Réplica Drevia),
 mismas referencias `shopify://shop_images/...` copiadas de ahí.
 
-## ⚠️ Cambio importante: el tema pasó a estar PUBLICADO
-El usuario publicó "VitaReva - Diseno IA" (gid://shopify/OnlineStoreTheme/207033532754,
-role MAIN) desde el editor de Shopify. A partir de ahí, esta sesión ya NO
-puede escribir directamente sobre ese tema (bloqueado por seguridad:
-"Theme file writes against the live storefront are blocked"). Se duplicó
-como nuevo tema NO publicado para seguir trabajando:
-- ID: gid://shopify/OnlineStoreTheme/207046803794
+## ⚠️ Cambio importante: el tema pasó a estar PUBLICADO (dos veces)
+El usuario publicó "VitaReva - Diseno IA" (207033532754) y luego también
+publicó el primer borrador (207046803794) tras verlo. Cada vez que un tema
+pasa a MAIN, esta sesión ya NO puede escribir directamente sobre él
+(bloqueado por seguridad: "Theme file writes against the live storefront
+are blocked"), así que hay que duplicarlo de nuevo para seguir trabajando.
+
+Tema EN VIVO actual: gid://shopify/OnlineStoreTheme/207046803794
+("VitaReva - Diseno IA (borrador)", ahora MAIN).
+
+Borrador de trabajo ACTUAL (no publicado):
+- ID: gid://shopify/OnlineStoreTheme/207047622994
 - Nombre: "VitaReva - Diseno IA (borrador)"
 - Enlace de previsualización:
-  https://3xhcyv-yu.myshopify.com/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1?preview_theme_id=207046803794
-Todos los cambios a partir de ahora se hacen en este borrador. El usuario
-debe revisarlo y publicarlo él mismo cuando esté conforme (Shopify admin →
-Temas → ⋯ → Publicar), igual que hizo con el anterior.
+  https://3xhcyv-yu.myshopify.com/products/cepillo-limpiador-de-ranuras-para-ventanas-y-rieles-2-en-1?preview_theme_id=207047622994
+Todos los cambios a partir de ahora se hacen en ESTE id. Si el usuario
+vuelve a publicar, hay que duplicar otra vez antes de seguir editando
+(comprobar con theme(id).role antes de escribir).
+
+## Octava corrección (texto del footer)
+`newsletter_heading` del footer (por defecto "Subscribe to our emails" /
+"Suscríbete a nuestros correos electrónicos") cambiado a un texto con gancho:
+"Suscríbete y no te pierdas nuestras ofertas".
 
 ## Séptima corrección (portada/home)
 La portada por defecto de Dawn ("Browse our latest products" con
